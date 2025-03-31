@@ -1,0 +1,52 @@
+park_name,trail_name,trail_location,id,distance,elevation_delta,difficulty,est_time_hr,est_time_min,hiking,biking,mountain_views,river,forest,hist_sites,lake
+Windy Saddle Park,Lookout Mountain Trail via Windy Saddle Trailhead,,1,3,521,Moderate,,,Y,Y,Y,N,Y,Y,N
+Windy Saddle Park,Chimney Gulch and Lookout Mountain Trail,,2,6.9,1761,Moderate,3,50,Y,Y,Y,N,Y,N,N
+Windy Saddle Park,Lookout Mountain Trail,,3,4.4,777,Moderate,2,4,Y,Y,Y,N,Y,N,N
+Windy Saddle Park,Beaver Brook Trail,,4,13.4,3297,Hard,,,Y,N,Y,Y,N,N,N
+Windy Saddle Park,Mount Zion Trail,,5,0.5,242,Moderate,0,24,Y,N,Y,N,Y,N,N
+Windy Saddle Park,Buffalo Bill and Beaver Brook Trail,,6,13.6,2286,Hard,,,Y,N,Y,Y,Y,Y,N
+Windy Saddle Park,Canal Zone via Grant Terry Trail,,7,2.7,147,Easy,0,55,Y,N,Y,Y,Y,N,N
+Windy Saddle Park,Tiers of Zion Lower Trail,,8,0.7,160,Moderate,0,21,Y,N,Y,N,Y,N,N
+Mount Galbraith Park,Mount Galbraith Loop Via Cedar Gulch Trail,,9,4.2,928,Moderate,2,11,Y,N,Y,N,Y,N,N
+Mount Galbraith Park,Nightbird Gulch Trail,,10,3.4,872,Moderate,1,53,Y,N,Y,N,N,N,N
+Mount Galbraith Park,"Cedar Gulch, Mount Galbraith, and Nightbird Trail",,11,7.5,1801,Moderate,4,3,Y,N,Y,N,N,N,N
+Mount Galbraith Park,Cedar Gulch and Nightbird Gulch Trail,,12,5.9,1453,Moderate,3,13,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Raccoon Trail,,13,2.6,462,Moderate,1,14,Y,N,Y,Y,Y,N,N
+Golden Gate Canyon State Park,Panorama Point via Mule Deer Trail and Raccoon Trail,,14,5,1020,Moderate,2,30,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Frazer Meadow via Horseshoe and Mule Deer Loop,,15,4,954,Moderate,2,8,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Mountain Lion Trail,,16,6.8,1578,Moderate,3,37,Y,N,Y,Y,Y,N,N
+Golden Gate Canyon State Park,Ralston Roost via Black Bear and Horseshoe Loop,,17,4.2,1187,Hard,,,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Black Bear and Horseshoe Trail Loop,,18,4.6,1204,Moderate,2,34,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Snowshoe Hare Trail,,19,3,659,Moderate,1,33,Y,Y,Y,N,Y,Y,Y
+Golden Gate Canyon State Park,Windy Peak via Mountain Lion Loop,,20,7.8,1965,Hard,,,Y,N,Y,Y,Y,N,Y
+Golden Gate Canyon State Park,Frazer Meadow via Blue Grouse Trail,,21,4.5,728,Moderate,2,3,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Black Bear/Horseshoe Loop,,22,6,1433,Moderate,3,13,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,"Black Bear trail, Horseshoe Trail and Mule Deer Trail Loop",,23,5,1246,Moderate,2,44,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Windy Peak via Mountain Lion Trail,,24,6.2,1646,Moderate,,,Y,N,Y,Y,Y,N,Y
+Golden Gate Canyon State Park,Burro Trail Loop to Windy Peak,,25,6.5,1774,Hard,,,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Windy Peak via Mountain Lion and Burro Trail Loop,,26,6.2,1696,Hard,3,34,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Upper Mule Deer Trail,,27,3.7,501,Easy,1,35,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Coyote Trail to Mule Deer Trail North Loop,,28,6.8,1240,Moderate,3,15,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Burro Loop Trail,,29,,,Moderate,2,45,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Tallman Ranch via Bridge Creek Trailhead,,30,3.1,531,Moderate,1,27,Y,N,Y,N,Y,N,
+Golden Gate Canyon State Park,Mule Deer trail,,31,9,1404,Moderate,4,3,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Coyote Trail,,32,3.9,967,Hard,,,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Mounain Lion Trail to Burro Trail Loop,,33,6,1689,Moderate,3,30,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Blue Grouse to Mule Deer Trail Loop,,34,10.4,1601,Hard,4,39,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Beaver Trail,,35,3.4,925,Moderate,1,57,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Buffalo Trail,,36,,679,Moderate,1,36,Y,N,Y,N,Y,N,Y
+Golden Gate Canyon State Park,Blue Grouse Trail,,37,1.4,249,Easy,0,40,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Mule Deer to Coyote Trail Loop,,38,5.7,1043,Moderate,,,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Frazer Meadow via Mule deer Trail,,39,4.7,633,Moderate,2,0,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Upper Mule Deer and Lower Mule Deer Loop,,40,5,672,Moderate,2,8,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Mountain Lion Trail and Burro Trail Loop,,41,5.4,1243,Moderate,2,51,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Mountain Lion Trail to Quarry,,42,3.8,797,Moderate,1,55,Y,N,Y,N,Y,N,N
+Golden Gate Canyon State Park,Dude's Fishing Hole,,43,0.9,154,Easy,0,26,Y,N,Y,N,N,Y,Y
+Golden Gate Canyon State Park,"Black Bear, Mule Deer, Horseshoe Trail Loop",,44,9.3,2129,Hard,4,54,Y,N,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Burro Trail to City Lights Ridge,,45,2.8,843,Moderate,1,42,Y,N,Y,N,N,N,N
+Golden Gate Canyon State Park,Blue Grouse and Mule Deer Loop,,46,10.6,1765,Hard,4,53,Y,Y,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Snowshoe Hare and Mule Deer from Aspen Meadows Campground,,47,12.7,2362,Hard,6,7,Y,Y,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Golden Gate Canyon Full Pull Trail,,48,27.7,5810,Hard,14,2,Y,Y,Y,N,Y,Y,N
+Golden Gate Canyon State Park,Visitor Center Nature Trail,,49,0.8,111,Easy,0,20,Y,Y,Y,N,Y,N,N
+Golden Gate Canyon State Park,"Mountain Lion, Windy Peak, and Burro Loop",,50,6.5,1706,Moderate,3,39,Y,N,Y,N,Y,N,Y
+Golden Gate Canyon State Park,Kriley Pond,,51,0.7,78,Easy,0,17,Y,N,Y,N,N,N,Y
