@@ -2,10 +2,10 @@ import csv
 
 def generate_inserts(parks, dps):
     # generate parks values
-    p = 'INSERT INTO parks (id, name)\nVALUES\n'
+    p = 'INSERT INTO parks (id, park_name)\nVALUES\n'
     for (id, park) in zip(range(1, len(parks)+1),parks):
         p += f'\t({id}, "{park}"){',' if id < len(parks) else ';'}\n'
-    trl = 'INSERT INTO trails (park_id, name, distance, elevation_delta, difficulty, est_time_hr, est_time_min)\nVALUES\n'
+    trl = 'INSERT INTO trails (park_id, trail_name, distance, elevation_delta, difficulty, est_time_hr, est_time_min)\nVALUES\n'
     trt = 'INSERT INTO traits (trail_id, hiking, biking, mountain_views, river, forest, hist_sites, lake)\nVALUES\n'
     for (id, dp) in zip(range(1, len(dps)+1), dps):
         trl += f'\t({dp['park_id']}, "{dp['trail_name']}", {dp['distance']}, {dp['elevation_delta']}, "{str.lower(dp['difficulty'])}", {dp['est_time_hr']}, {dp['est_time_min']}){',' if id < len(dps) else ';'}\n'

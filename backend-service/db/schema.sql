@@ -3,13 +3,13 @@ USE project;
 
 CREATE TABLE parks (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL
+    park_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE trails (
     id INT PRIMARY KEY AUTO_INCREMENT,
     park_id INT NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    trail_name VARCHAR(255) NOT NULL,
     distance DEC,
     elevation_delta DEC,
     difficulty ENUM("easy", "moderate", "hard"),

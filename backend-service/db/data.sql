@@ -1,11 +1,11 @@
 USE project;
 
-INSERT INTO parks (id, name)
+INSERT INTO parks (id, park_name)
 VALUES
 	(1, "Golden Gate Canyon State Park"),
 	(2, "Windy Saddle Park"),
 	(3, "Mount Galbraith Park");
-INSERT INTO trails (park_id, name, distance, elevation_delta, difficulty, est_time_hr, est_time_min)
+INSERT INTO trails (park_id, trail_name, distance, elevation_delta, difficulty, est_time_hr, est_time_min)
 VALUES
 	(2, "Lookout Mountain Trail via Windy Saddle Trailhead", 3, 521, "moderate", null, null),
 	(2, "Chimney Gulch and Lookout Mountain Trail", 6.9, 1761, "moderate", 3, 50),
