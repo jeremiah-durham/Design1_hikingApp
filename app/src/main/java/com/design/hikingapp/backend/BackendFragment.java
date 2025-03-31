@@ -15,7 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class BackendFragment {
     private static final String TAG = "BackendFragment";
     // 10.0.2.2 is the loopback address to the host machine
-    // i.e. its the aaddress of your computer
+    // i.e. its the address of your computer
     private static final String HTTP_URL = "http://10.0.2.2:80";
 
     public BackendFragment() {
