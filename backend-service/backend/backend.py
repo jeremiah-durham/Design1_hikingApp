@@ -149,6 +149,13 @@ class DBManager:
             res.append(c)
         return json.jsonify(list(map(lambda x: {k:v for (k,v) in zip(cols, x)}, res)))
 
+    def custom_query(self, query, cols):
+        self.cursor.execute(query)
+        res = []
+        for c in self.cursor:
+            res.append(c)
+        return json.jsonify(list(map(lambda x: {k:v for (k,v) in zip(cols, x)}, res)))
+
     def query_columns(self):
         res = set()
         for t in ['trails', 'traits', 'parks']:
@@ -222,10 +229,10 @@ def json_test():
         if 'count' in data.keys():
             fac.withCount(data['count'])
 
-        out = fac.build()
+        query = fac.build()
+        out = conn.custom_query(query, data['fields'])
 
-
-        return {"message":"got json data",  "data":out}
+        return out
 
 if __name__ == '__main__':
     server.run()

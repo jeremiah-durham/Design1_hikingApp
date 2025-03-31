@@ -15,7 +15,7 @@ def test_query():
 
     r = requests.post('http://localhost:80/json', json=query)
     print(r.status_code)
-    print(r.json()['data'])
+    print(r.json())
 
 if __name__ == '__main__':
     r = requests.get('http://localhost:80')
