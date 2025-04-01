@@ -37,7 +37,7 @@ class QueryFactory:
         for key in self.filters.keys():
             if key in ['park_name', 'difficulty']:
                 filts.append(QFilterDisj(key, self.filters[key]))
-            elif key in ['elevation_delta', 'distance']:
+            elif key in ['elevation_delta', 'distance', 'est_time_min']:
                 filts.append(QFilterRange(key, self.filters[key]))
             elif key == 'traits':
                 filts.append(QFilterConjMany(self.filters[key]))

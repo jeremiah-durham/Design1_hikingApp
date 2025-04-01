@@ -13,7 +13,6 @@ CREATE TABLE trails (
     distance DEC,
     elevation_delta DEC,
     difficulty ENUM("easy", "moderate", "hard"),
-    est_time_hr DEC,
     est_time_min DEC,
 
     FOREIGN KEY (park_id) REFERENCES parks(id)

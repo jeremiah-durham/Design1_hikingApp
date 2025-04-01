@@ -5,10 +5,10 @@ def generate_inserts(parks, dps):
     p = 'INSERT INTO parks (id, park_name)\nVALUES\n'
     for (id, park) in zip(range(1, len(parks)+1),parks):
         p += f'\t({id}, "{park}"){',' if id < len(parks) else ';'}\n'
-    trl = 'INSERT INTO trails (park_id, trail_name, distance, elevation_delta, difficulty, est_time_hr, est_time_min)\nVALUES\n'
+    trl = 'INSERT INTO trails (park_id, trail_name, distance, elevation_delta, difficulty, est_time_min)\nVALUES\n'
     trt = 'INSERT INTO traits (trail_id, hiking, biking, mountain_views, river, forest, hist_sites, lake)\nVALUES\n'
     for (id, dp) in zip(range(1, len(dps)+1), dps):
-        trl += f'\t({dp['park_id']}, "{dp['trail_name']}", {dp['distance']}, {dp['elevation_delta']}, "{str.lower(dp['difficulty'])}", {dp['est_time_hr']}, {dp['est_time_min']}){',' if id < len(dps) else ';'}\n'
+        trl += f'\t({dp['park_id']}, "{dp['trail_name']}", {dp['distance']}, {dp['elevation_delta']}, "{str.lower(dp['difficulty'])}", {dp['est_time_min']}){',' if id < len(dps) else ';'}\n'
         trt += f'\t({id}, {'true' if dp['hiking'] == 'Y' else 'false'}, {'true' if dp['biking'] == 'Y' else 'false'}, {'true' if dp['mountain_views'] == 'Y' else 'false'}, {'true' if dp['river'] == 'Y' else 'false'}, {'true' if dp['forest'] == 'Y' else 'false'}, {'true' if dp['hist_sites'] == 'Y' else 'false'}, {'true' if dp['lake'] == 'Y' else 'false'}){',' if id < len(dps) else ';'}\n'
 
 
@@ -44,6 +44,11 @@ if __name__ == '__main__':
         for c in cols:
             if dp[c] == '':
                 dp[c] = 'null'
+        if not (dp['est_time_min'] == 'null' and dp['est_time_hr'] == 'null'):
+            if dp['est_time_min'] == 'null':
+                dp['est_time_min'] = float(dp['est_time_hr'])*60
+            else:
+                dp['est_time_min'] = float(dp['est_time_min']) + (float(dp['est_time_hr'])*60 if dp['est_time_hr'] != 'null' else 0)
 
     with open('data.sql', 'w') as f:
         f.write('USE project;\n\n')
