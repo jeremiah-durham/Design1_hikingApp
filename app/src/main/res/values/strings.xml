@@ -1,6 +1,34 @@
 <resources>
     <string name="app_name">Hiking App</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_search">Search</string>
+    <string name="title_saved">Saved</string>
+    <string name="title_profile">Profile</string>
+
+    <string name="intro">Let\'s fill out a personalized profile!</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="lbs">lbs</string>
+    <string name="em_contact">Emergency contact</string>
+    <string name="disclaimer">Your physical profile information is private and will not be shared or made public. It is only used within the app to improve personalized recommendations for your hikes.</string>
+
+    <string-array name="feet">
+        <item>4\'</item>
+        <item>5\'</item>
+        <item>6\'</item>
+        <item>7\'</item>
+    </string-array>
+    <string-array name="inches">
+        <item>0\"</item>
+        <item>1\"</item>
+        <item>2\"</item>
+        <item>3\"</item>
+        <item>4\"</item>
+        <item>5\"</item>
+        <item>6\"</item>
+        <item>7\"</item>
+        <item>8\"</item>
+        <item>9\"</item>
+        <item>10\"</item>
+        <item>11\"</item>
+    </string-array>
 </resources>
