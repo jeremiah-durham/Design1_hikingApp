@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Trail Image -->
+        <ImageView
+            android:id="@+id/trailImage"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_trail_image" />
+
+        <!-- Trail Info Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="35dp"
+                android:paddingEnd="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/trailNameText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_semibold"
+                            android:text="Upper Mule Deer Trail"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/trailDifficulty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="Easy"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/downloadButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:paddingTop="6dp"
+                        android:scaleType="fitEnd"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        app:srcCompat="@drawable/download_icon" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="-20dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/distanceText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="13dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="Distance"
+                            android:textAlignment="center"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/milesValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:text="3.3"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="24sp"
+                                android:typeface="normal" />
+
+                            <TextView
+                                android:id="@+id/milesText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:paddingStart="4dp"
+                                android:paddingBottom="2dp"
+                                android:text="mi"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/divider1"
+                            android:layout_width="29dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:paddingTop="3dp"
+                            app:srcCompat="@drawable/small_divider_line" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="-20dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/elevationText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="13dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="Elevation"
+                            android:textAlignment="center"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/feetValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:text="501"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="24sp"
+                                android:typeface="normal" />
+
+                            <TextView
+                                android:id="@+id/feetText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:paddingStart="4dp"
+                                android:paddingBottom="2dp"
+                                android:text="ft"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/divider2"
+                            android:layout_width="29dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:paddingTop="3dp"
+                            app:srcCompat="@drawable/small_divider_line" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/estTimeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="13dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="Est. Time"
+                            android:textAlignment="center"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/timeHrsValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:text="1"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="24sp"
+                                android:typeface="normal" />
+
+                            <TextView
+                                android:id="@+id/timeHrsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:paddingStart="4dp"
+                                android:paddingBottom="2dp"
+                                android:text="hr"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/timeMinsValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:text="36"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="24sp"
+                                android:typeface="normal" />
+
+                            <TextView
+                                android:id="@+id/timeMinsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/lato_semibold"
+                                android:gravity="bottom"
+                                android:paddingStart="4dp"
+                                android:paddingBottom="2dp"
+                                android:text="min"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/divider3"
+                            android:layout_width="29dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:paddingTop="3dp"
+                            app:srcCompat="@drawable/small_divider_line" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="210dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="28dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitStart"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        app:srcCompat="@drawable/water_icon" />
+
+                    <TextView
+                        android:id="@+id/litersValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="1 L"
+                        android:textColor="#016BB2"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/waterNeededText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="water needed"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="210dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitStart"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        app:srcCompat="@drawable/fire_icon" />
+
+                    <TextView
+                        android:id="@+id/calsValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="3675 cal"
+                        android:textColor="#DB2800"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/burnedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="burned"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp">
+
+                    <ImageView
+                        android:id="@+id/weatherBackgroundImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/sunny_bg" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/degreesValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="25dp"
+                                android:fontFamily="@font/inter_regular"
+                                android:includeFontPadding="false"
+                                android:text="62°"
+                                android:textColor="@color/textTemperature"
+                                android:textSize="40sp"
+                                android:typeface="normal" />
+
+                            <TextView
+                                android:id="@+id/textView10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="0dp"
+                                android:layout_marginBottom="3dp"
+                                android:fontFamily="@font/inter_regular"
+                                android:includeFontPadding="false"
+                                android:text="feels like 64"
+                                android:textColor="@color/textTemperature"
+                                android:textSize="16sp" />
+
+                            <ImageView
+                                android:id="@+id/weatherIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_gravity="bottom"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:paddingEnd="30dp"
+                                android:scaleType="fitEnd"
+                                app:srcCompat="@drawable/sunny_icon" />
+
+                        </LinearLayout>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!--                <androidx.cardview.widget.CardView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="25dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    app:cardBackgroundColor="#FFE5CA"-->
+<!--                    app:cardCornerRadius="8dp">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imageView6"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:padding="7dp"-->
+<!--                        android:scaleType="fitCenter"-->
+<!--                        app:srcCompat="@drawable/sample_map" />-->
+<!--                </androidx.cardview.widget.CardView>-->
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Map Section -->
+
+        <!-- Weather Info -->
+    </LinearLayout>
+</ScrollView>

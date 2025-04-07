@@ -11,7 +11,7 @@
         android:label="Initial Profile"/>
 <!--    <fragment-->
 <!--        android:id="@+id/search"-->
-<!--        android:name="com.design.hikingapp.Sea"-->
+<!--        android:name="com.design.hikingapp.Search"-->
 <!--        android:label="Initial Profile"/>-->
 
 <!--    <fragment-->

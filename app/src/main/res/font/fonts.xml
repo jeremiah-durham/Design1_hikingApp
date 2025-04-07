@@ -12,4 +12,12 @@
         android:fontStyle="normal"
         android:fontWeight="600"
         android:font="@font/lato_semibold" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="600"
+        android:font="@font/inter_semibold" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/inter_regular" />
 </font-family>
