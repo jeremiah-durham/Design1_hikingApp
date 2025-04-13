@@ -34,27 +34,8 @@ public class WeatherData {
         hourlyPrecipitations.add(new PrecipHour(precipPercent, time));
     }
 
-    public void addWind(int speed, String direction, String time) {
-        int heading = 0;
-        switch (direction) {
-            case "N":
-                heading = 0;
-            case "NE":
-                heading = 45;
-            case "E":
-                heading = 90;
-            case "SE":
-                heading = 135;
-            case "S":
-                heading = 180;
-            case "SW":
-                heading = 225;
-            case "W":
-                heading = 270;
-            case "NW":
-                heading = 315;
-        }
-        hourlyWinds.add(new WindHour(speed, heading, time));
+    public void addWind(int speed, int direction, String time) {
+        hourlyWinds.add(new WindHour(speed, direction, time));
     }
 
     public void addCurrentWeather(int currentTemp, int currentFeelsLike, String currentCondition) {

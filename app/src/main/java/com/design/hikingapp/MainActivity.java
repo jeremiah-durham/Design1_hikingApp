@@ -72,4 +72,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setVisibility(BottomNavigationView.VISIBLE);
         bottomNavigationView.setLabelVisibilityMode(BottomNavigationView.LABEL_VISIBILITY_UNLABELED);
     }
+
+    public Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
 }
