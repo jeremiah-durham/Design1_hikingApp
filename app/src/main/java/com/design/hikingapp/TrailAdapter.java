@@ -34,21 +34,21 @@ public class TrailAdapter extends RecyclerView.Adapter<TrailAdapter.TrailViewHol
         Trail trail = trailList.get(position);
 
         // Set the trail name, details, and image to the corresponding views in the holder
-        holder.trailName.setText(trail.getTrailName());
-        holder.trailDetails.setText(trail.getTrailDetails());
+        holder.trailName.setText(trail.getName());
+        String trailDetails = trail.getDistance() + " mi  |  " + trail.getDifficulty() + "  |  Est. " + trail.getTimeHrs() + "hr " + trail.getTimeMins() + "min";
+        holder.trailDetails.setText(trailDetails);
         holder.trailImage.setImageResource(trail.getImageResource());
 
         // Add click listener to the item view to pass data to the new page (Fragment or Activity)
         holder.itemView.setOnClickListener(v -> {
             // Create a bundle to pass the trail details
             Bundle bundle = new Bundle();
-            bundle.putString("trail_name", trail.getTrailName());
-            bundle.putString("trail_details", trail.getTrailDetails());
+            bundle.putString("trail_name", trail.getName());
+            bundle.putString("trail_details", trailDetails);
             bundle.putInt("trail_image", trail.getImageResource());  // Pass image resource ID
 
             // Open the TrailDetailFragment and pass the bundle with the data
-            TrailDetailsFragment detailFragment = new TrailDetailsFragment();
-            detailFragment.setArguments(bundle); // Pass data to the fragment
+            TrailDetailsFragment detailFragment = new TrailDetailsFragment(trail);
 
             // Assuming you're in an Activity context, you can load the fragment:
             FragmentActivity activity = (FragmentActivity) v.getContext();

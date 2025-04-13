@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:padding="0dp">
+    android:padding="0dp"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,7 +76,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="0dp"
                         android:layout_weight="1"
-                        android:background="#FFFFFF"
+                        android:background="@null"
                         android:paddingTop="6dp"
                         android:scaleType="fitEnd"
                         android:scaleX="1"
@@ -308,17 +309,17 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="210dp"
+                    android:layout_width="215dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/imageView2"
-                        android:layout_width="28dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="2dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitStart"
                         android:scaleX="1"
@@ -329,7 +330,7 @@
                         android:id="@+id/litersValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="13dp"
                         android:fontFamily="@font/lato_semibold"
                         android:text="1 L"
                         android:textColor="#016BB2"
@@ -349,7 +350,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="210dp"
+                    android:layout_width="215dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
@@ -358,8 +359,6 @@
                         android:id="@+id/imageView3"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:adjustViewBounds="true"
                         android:scaleType="fitStart"
                         android:scaleX="1"
@@ -372,7 +371,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/lato_semibold"
-                        android:text="3675 cal"
+                        android:text="675 cal"
                         android:textColor="#DB2800"
                         android:textSize="24sp" />
 
@@ -392,15 +391,47 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="25dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#FFE5CA"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
                     <ImageView
-                        android:id="@+id/weatherBackgroundImage"
+                        android:id="@+id/imageView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
+                        android:padding="7dp"
                         android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/sample_map" />
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="15dp"
+                        android:adjustViewBounds="true"
+                        android:elevation="10dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/expand_icon" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:layout_marginTop="25dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
+
+                    <ImageView
+                        android:id="@+id/weatherBackgroundImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="center"
                         app:srcCompat="@drawable/sunny_bg" />
 
                     <LinearLayout
@@ -423,11 +454,11 @@
                                 android:includeFontPadding="false"
                                 android:text="62°"
                                 android:textColor="@color/textTemperature"
-                                android:textSize="40sp"
+                                android:textSize="44sp"
                                 android:typeface="normal" />
 
                             <TextView
-                                android:id="@+id/textView10"
+                                android:id="@+id/feelsLikeValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
@@ -438,12 +469,12 @@
                                 android:includeFontPadding="false"
                                 android:text="feels like 64"
                                 android:textColor="@color/textTemperature"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
 
                             <ImageView
                                 android:id="@+id/weatherIcon"
                                 android:layout_width="wrap_content"
-                                android:layout_height="50dp"
+                                android:layout_height="55dp"
                                 android:layout_gravity="bottom"
                                 android:layout_weight="1"
                                 android:adjustViewBounds="true"
@@ -455,29 +486,136 @@
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="490dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="10dp"
+                            app:cardBackgroundColor="#4C424242"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:contentPadding="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textView15"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_regular"
+                                    android:paddingHorizontal="5dp"
+                                    android:paddingVertical="8dp"
+                                    android:text="Conditions"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/weatherRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:alpha="1"
+                                    android:clipToPadding="false"
+                                    android:paddingVertical="8dp"
+                                    android:scrollbars="none">
+
+                                </androidx.recyclerview.widget.RecyclerView>
+
+                                <View
+                                    android:id="@+id/view"
+                                    android:layout_width="50dp"
+                                    android:layout_height="1dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="#ffffff" />
+
+                                <TextView
+                                    android:id="@+id/textView16"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_regular"
+                                    android:paddingHorizontal="5dp"
+                                    android:paddingVertical="8dp"
+                                    android:text="Precipitation"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/precipRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:alpha="1"
+                                    android:clipToPadding="false"
+                                    android:nestedScrollingEnabled="false"
+                                    android:overScrollMode="never"
+                                    android:paddingVertical="8dp"
+                                    android:scrollbars="none" />
+
+                                <View
+                                    android:id="@+id/view2"
+                                    android:layout_width="50dp"
+                                    android:layout_height="1dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="#ffffff" />
+
+                                <TextView
+                                    android:id="@+id/textView17"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_regular"
+                                    android:paddingHorizontal="5dp"
+                                    android:paddingVertical="8dp"
+                                    android:text="Wind"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/windRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clipToPadding="false"
+                                    android:orientation="horizontal"
+                                    android:overScrollMode="always"
+                                    android:paddingVertical="8dp">
+
+                                </androidx.recyclerview.widget.RecyclerView>
+
+                                <View
+                                    android:id="@+id/view3"
+                                    android:layout_width="50dp"
+                                    android:layout_height="1dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="#ffffff" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
-                <!--                <androidx.cardview.widget.CardView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="25dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    app:cardBackgroundColor="#FFE5CA"-->
-<!--                    app:cardCornerRadius="8dp">-->
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Recommended packing list"
+                    android:textSize="18sp" />
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView6"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:padding="7dp"-->
-<!--                        android:scaleType="fitCenter"-->
-<!--                        app:srcCompat="@drawable/sample_map" />-->
-<!--                </androidx.cardview.widget.CardView>-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/packingListRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:clipToPadding="false" />
 
             </LinearLayout>
 

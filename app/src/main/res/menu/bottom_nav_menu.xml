@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title=""
-        android:icon="@drawable/search_icon"
-        android:id="@+id/search"/>
+    <item
+        android:id="@+id/search"
+        android:icon="?android:attr/actionModeWebSearchDrawable"
+        android:title="" />
     <item android:title=""
         android:icon="@drawable/saved_icon"
         android:id="@+id/saved"/>

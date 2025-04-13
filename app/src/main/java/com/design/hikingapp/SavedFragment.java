@@ -14,5 +14,4 @@ public class SavedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_saved, container, false);
     }
 
-
 }

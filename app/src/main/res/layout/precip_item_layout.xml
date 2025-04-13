@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="41dp"
+    android:layout_height="90dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!-- Percentage Label -->
+    <TextView
+        android:id="@+id/percentageText"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="@font/inter_semibold"
+        android:includeFontPadding="false"
+        android:text="0%"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:typeface="normal" />
+
+    <LinearLayout
+        android:id="@+id/barHeight"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/topLine"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/white" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/filler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="#4CFFFFFF"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/bottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/timeTextPrecip"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter_regular"
+        android:text="3pm"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:typeface="normal" />
+
+    <!-- Base Line -->
+
+    <!-- Time Label -->
+</LinearLayout>

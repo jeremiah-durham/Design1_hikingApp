@@ -21,7 +21,7 @@ public class InitialProfileFragment extends Fragment {
 
     private String heightFeet = "0'";
     private String heightInches = "0\"";
-    private String weight = "0";
+    private String weight = "140";
     private String emergencyEmail;
 
     @Override
@@ -52,13 +52,13 @@ public class InitialProfileFragment extends Fragment {
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> feetAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.feet, android.R.layout.simple_spinner_item);
+                R.array.feet, R.layout.spinner_item);
         ArrayAdapter<CharSequence> inchesAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.inches, android.R.layout.simple_spinner_item);
+                R.array.inches, R.layout.spinner_item);
 
         // Specify the layout to use when the list of choices appears
-        feetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        inchesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        feetAdapter.setDropDownViewResource(R.layout.spinner_item);
+        inchesAdapter.setDropDownViewResource(R.layout.spinner_item);
 
         // Apply the adapter to the spinner
         feetDropdown.setAdapter(feetAdapter);
@@ -73,7 +73,7 @@ public class InitialProfileFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                heightFeet = "none";
+                heightFeet = "5'";
             }
         });
 
@@ -86,7 +86,7 @@ public class InitialProfileFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                heightInches = "none";
+                heightInches = "7\"";
             }
         });
 
@@ -104,18 +104,17 @@ public class InitialProfileFragment extends Fragment {
     }
 
     // Getter methods for private variables
-    public String getHeightFeet() {
-        return heightFeet;
+    public int getHeightFeet() {
+        String modifiedHeightString = heightFeet.replace("'", "");
+        return Integer.parseInt(modifiedHeightString);
     }
-
-    public String getHeightInches() {
-        return heightInches;
+    public int getHeightInches() {
+        String modifiedHeightString = heightInches.replace("\"", "");
+        return Integer.parseInt(modifiedHeightString);
     }
-
-    public String getWeight() {
-        return weight;
+    public int getWeight() {
+        return Integer.parseInt(weight);
     }
-
     public String getEmergencyEmail() {
         return emergencyEmail;
     }

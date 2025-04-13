@@ -9,7 +9,7 @@
     <!-- CardView containing the image with drop shadow and rounded corners -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
         android:layout_gravity="center"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp">
@@ -31,7 +31,7 @@
         android:fontFamily="@font/lato_semibold"
         android:text="Trail Name"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/trail_details"
@@ -42,7 +42,7 @@
         android:fontFamily="@font/lato_regular"
         android:text="12.7 mi  |  Hard  |  Est. 6 hr 7 min"
         android:textColor="@color/textSecondary"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <!-- Trail Name -->
 

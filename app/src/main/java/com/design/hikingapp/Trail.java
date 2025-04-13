@@ -2,30 +2,53 @@ package com.design.hikingapp;
 
 public class Trail {
     private int imageResource;
-    private String trailName;
-    private String trailDetails;
-    private int trailID;
+    private int mapResource;
+    private String name;
+    private double distance;
+    private String difficulty;
+    private int elevation;
+    private int timeHrs;
+    private int timeMins;
+    private int id;
 
-    public Trail(int imageResource, String trailName, String trailDetails, int trailID) {
+    public Trail(int imageResource, int mapResource, String name, double distance, String difficulty, int elevation, int timeHrs, int timeMins, int id) {
         this.imageResource = imageResource;
-        this.trailName = trailName;
-        this.trailDetails = trailDetails;
-        this.trailID = trailID;
+        this.mapResource = mapResource;
+        this.name = name;
+        this.distance = distance;
+        this.elevation = elevation;
+        this.difficulty = difficulty;
+        this.timeHrs = timeHrs;
+        this.timeMins = timeMins;
+
+        this.id = id;
     }
 
     public int getImageResource() {
         return imageResource;
     }
 
-    public String getTrailName() {
-        return trailName;
+    public String getName() {
+        return name;
     }
 
-    public String getTrailDetails() {
-        return trailDetails;
+    public double getDistance() {
+        return distance;
+    }
+    public String getDifficulty() {
+        return difficulty;
+    }
+    public int getElevation() {
+        return elevation;
+    }
+    public int getTimeHrs() {
+        return timeHrs;
+    }
+    public int getTimeMins() {
+        return timeMins;
     }
 
-    public int getTrailID() {
-        return trailID;
+    public int getId() {
+        return id;
     }
 }
