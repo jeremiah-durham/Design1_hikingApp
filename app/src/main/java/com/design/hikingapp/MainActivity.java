@@ -2,10 +2,8 @@ package com.design.hikingapp;
 
 import androidx.fragment.app.Fragment;
 
-import android.opengl.Visibility;
 import android.os.Bundle;
 
-import com.design.hikingapp.backend.BackendFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.design.hikingapp.databinding.ActivityMainBinding;
 import com.design.hikingapp.weather.WeatherDataParser;
 import com.design.hikingapp.weather.WeatherRepository;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

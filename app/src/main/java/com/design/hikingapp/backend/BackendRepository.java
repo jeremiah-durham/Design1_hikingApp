@@ -10,12 +10,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-import javax.net.ssl.HttpsURLConnection;
-
-public class BackendFragment {
+public class BackendRepository {
 
 
     // backend is responsible for the following tasks:
@@ -26,13 +22,13 @@ public class BackendFragment {
     // 5. checking if the device is online or not (?)
 
 
-    private static final String TAG = "BackendFragment";
+    private static final String TAG = "BackendRepository";
     // 10.0.2.2 is the loopback address to the host machine
     // i.e. its the address of your computer
     private static final String HTTP_URL = "http://10.0.2.2:80";
 
-    public BackendFragment() {
-        Log.d(TAG, "BackendFragment created");
+    public BackendRepository() {
+        Log.d(TAG, "BackendRepository created");
 
         new Thread(new Runnable() {
             @Override
