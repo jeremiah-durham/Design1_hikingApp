@@ -7,13 +7,8 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class WeatherAPICall {
-    public static void getWeatherData(double latitude, double longitude) {
-        String response = fetchWeatherData(latitude, longitude);
-        if (response != null) {
-            writeToJsonFile(response);
-        } else {
-            System.out.println("Failed to fetch weather data.");
-        }
+    public static String getWeatherData(double latitude, double longitude) {
+        return fetchWeatherData(latitude, longitude);
     }
 
     private static String fetchWeatherData(double lat, double lon) {
@@ -48,15 +43,6 @@ public class WeatherAPICall {
             if (apiConnection != null) {
                 apiConnection.disconnect();
             }
-        }
-    }
-
-    private static void writeToJsonFile(String jsonData) {
-        try (FileWriter file = new FileWriter("weather_data3.json")) {
-            file.write(jsonData);
-            System.out.println("Weather data saved to weather_data.json");
-        } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
         }
     }
 }

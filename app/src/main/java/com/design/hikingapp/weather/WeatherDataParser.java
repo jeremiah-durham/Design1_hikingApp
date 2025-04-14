@@ -11,15 +11,7 @@ public class WeatherDataParser {
         this.weatherData = new WeatherData();
     }
 
-    public void parseWeatherData(String filePath) {
-        try (FileReader reader = new FileReader(filePath)) {
-            StringBuilder jsonContent = new StringBuilder();
-            int ch;
-            while ((ch = reader.read()) != -1) {
-                jsonContent.append((char) ch);
-            }
-            String jsonString = jsonContent.toString();
-
+    public void parseWeatherData(String jsonString) {
             // Extract all required arrays from JSON
             String[] times = parseStringArray(extractArray(jsonString, "time"));
             double[] temps = parseDoubleArray(extractArray(jsonString, "temperature_2m"));
@@ -69,10 +61,6 @@ public class WeatherDataParser {
                     );
                 }
             }
-
-        } catch (IOException e) {
-            System.out.println("Error reading JSON file: " + e.getMessage());
-        }
     }
 
     // ===== Helper Methods for JSON Parsing =====
@@ -111,15 +99,15 @@ public class WeatherDataParser {
     // ===== Weather Condition Converter =====
     private String getWeatherCondition(int weatherCode) {
         switch (weatherCode) {
-            case 0: return "Sunny";
-            case 1: return "Sunny";
-            case 2: return "Cloudy";
-            case 3: return "Cloudy";
-            case 51: case 53: case 55: return "Rainy";
-            case 61: case 63: case 65: return "Rainy";
-            case 71: case 73: case 75: return "Snowy";
-            case 80: case 81: case 82: return "Rainy";
-            case 85: case 86: return "Snowy";
+            case 0: return "SUNNY";
+            case 1: return "SUNNY";
+            case 2: return "CLOUDY";
+            case 3: return "CLOUDY";
+            case 51: case 53: case 55: return "RAINY";
+            case 61: case 63: case 65: return "RAINY";
+            case 71: case 73: case 75: return "SNOWY";
+            case 80: case 81: case 82: return "RAINY";
+            case 85: case 86: return "SNOWY";
             default: return "Unknown";
         }
     }
@@ -128,10 +116,11 @@ public class WeatherDataParser {
         return weatherData;
     }
 
-    public static void main(String[] args) {
-        WeatherAPICall.getWeatherData(35.6764, 139.6500);
+
+    private void exampleCall() {
+        String response = WeatherAPICall.getWeatherData(35.6764, 139.6500); //placeholders. TODO: need to be replaced with variables from trail data
         WeatherDataParser parser = new WeatherDataParser();
-        parser.parseWeatherData("weather_data3.json");
+        parser.parseWeatherData(response);
         WeatherData weatherData = parser.getWeatherData();
         weatherData.displayWeatherData();
     }
