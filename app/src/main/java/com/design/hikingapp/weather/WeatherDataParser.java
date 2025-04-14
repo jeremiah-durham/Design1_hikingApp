@@ -1,4 +1,6 @@
 package com.design.hikingapp.weather;
+import com.design.hikingapp.WeatherData;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -8,7 +10,9 @@ public class WeatherDataParser {
     private WeatherData weatherData;
 
     public WeatherDataParser() {
-        this.weatherData = new WeatherData();
+        WeatherAPICall.getWeatherData(35.6764, 139.6500);
+        parseWeatherData("weather_data3.json");
+        this.weatherData = getWeatherData();
     }
 
     public void parseWeatherData(String jsonString) {
@@ -26,9 +30,10 @@ public class WeatherDataParser {
             // Add current weather (first entry)
             if (times.length > 0 && temps.length > 0 && feelsLike.length > 0 && weatherCodes.length > 0) {
                 weatherData.addCurrentWeather(
-                        temps[0],
-                        feelsLike[0],
-                        getWeatherCondition(weatherCodes[0])
+                        (int)(temps[0]),
+                        (int)(feelsLike[0]),
+                        getWeatherCondition(weatherCodes[0]),
+                        (int)snowDepths[0]
                 );
             }
 
@@ -37,17 +42,16 @@ public class WeatherDataParser {
                 // Add temperature data
                 if (i < temps.length && i < weatherCodes.length) {
                     weatherData.addTemperature(
-                            temps[i],
+                            (int)temps[i],
                             getWeatherCondition(weatherCodes[i]),
                             times[i]
                     );
                 }
 
                 // Add precipitation data (now with snow depth)
-                if (i < precipProb.length && i < snowDepths.length) {
+                if (i < precipProb.length) {
                     weatherData.addPrecipitation(
-                            precipProb[i],
-                            snowDepths[i],
+                            (int)precipProb[i],
                             times[i]
                     );
                 }
@@ -55,8 +59,8 @@ public class WeatherDataParser {
                 // Add wind data (in degrees)
                 if (i < windSpeeds.length && i < windDirections.length) {
                     weatherData.addWind(
-                            windSpeeds[i],
-                            windDirections[i] + "°",  // Keep as degrees
+                            (int)windSpeeds[i],
+                            windDirections[i],  // Keep as degrees
                             times[i]
                     );
                 }
@@ -99,15 +103,15 @@ public class WeatherDataParser {
     // ===== Weather Condition Converter =====
     private String getWeatherCondition(int weatherCode) {
         switch (weatherCode) {
-            case 0: return "SUNNY";
-            case 1: return "SUNNY";
-            case 2: return "CLOUDY";
-            case 3: return "CLOUDY";
-            case 51: case 53: case 55: return "RAINY";
-            case 61: case 63: case 65: return "RAINY";
-            case 71: case 73: case 75: return "SNOWY";
-            case 80: case 81: case 82: return "RAINY";
-            case 85: case 86: return "SNOWY";
+            case 0: return "Sunny";
+            case 1: return "Sunny";
+            case 2: return "Cloudy";
+            case 3: return "Cloudy";
+            case 51: case 53: case 55: return "Rainy";
+            case 61: case 63: case 65: return "Rainy";
+            case 71: case 73: case 75: return "Snowy";
+            case 80: case 81: case 82: return "Rainy";
+            case 85: case 86: return "Snowy";
             default: return "Unknown";
         }
     }
@@ -122,6 +126,5 @@ public class WeatherDataParser {
         WeatherDataParser parser = new WeatherDataParser();
         parser.parseWeatherData(response);
         WeatherData weatherData = parser.getWeatherData();
-        weatherData.displayWeatherData();
     }
 }

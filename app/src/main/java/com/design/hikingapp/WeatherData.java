@@ -18,26 +18,26 @@ public class WeatherData {
     public void addTemperature(int temperature, String condition, String time) {
         int imageResource = R.drawable.sunny_icon;
         switch (condition) {
-            case "SUNNY":
+            case "Sunny":
                 imageResource = R.drawable.sunny_icon;
-            case "CLOUDY":
+            case "Cloudy":
                 imageResource = R.drawable.cloudy_icon;
-            case "RAINY":
+            case "Rainy":
                 imageResource = R.drawable.rainy_icon;
-            case "SNOWY":
+            case "Snowy":
                 imageResource = R.drawable.snowy_icon;
-            case "NIGHT":
+            case "Night":
                 imageResource = R.drawable.night_icon;
         }
-        hourlyTemperatures.add(new TemperatureHour(temperature, imageResource, time));
+        hourlyTemperatures.add(new TemperatureHour(temperature, imageResource, formatTime(time)));
     }
 
     public void addPrecipitation(int precipPercent, String time) {
-        hourlyPrecipitations.add(new PrecipHour(precipPercent, time));
+        hourlyPrecipitations.add(new PrecipHour(precipPercent, formatTime(time)));
     }
 
     public void addWind(int speed, int direction, String time) {
-        hourlyWinds.add(new WindHour(speed, direction, time));
+        hourlyWinds.add(new WindHour(speed, direction, formatTime(time)));
     }
 
     public void addCurrentWeather(int currentTemp, int currentFeelsLike, String currentCondition, int snowDepthInches) {
@@ -58,6 +58,7 @@ public class WeatherData {
             case "NIGHT":
                 backgroundResource = R.drawable.night_bg;
         }
+        this.weatherBackground = backgroundResource;
         this.snowDepthInches = snowDepthInches;
     }
 
@@ -89,5 +90,16 @@ public class WeatherData {
     }
     public int getSnowDepthInches() {
         return snowDepthInches;
+    }
+
+    private String formatTime(String time) {
+        String ftime = time.split("T")[1].split(":")[0];
+
+        int integerTime = Integer.parseInt(ftime);
+        int hour = (integerTime == 0 || integerTime == 12) ? 12 : integerTime % 12;
+
+        String amPm = (integerTime >= 12) ? " pm" : " am";
+
+        return hour + amPm;
     }
 }

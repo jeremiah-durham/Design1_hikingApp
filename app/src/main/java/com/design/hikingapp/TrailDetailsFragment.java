@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.design.hikingapp.weather.WeatherDataParser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class TrailDetailsFragment extends Fragment {
 
     private RecyclerView packingRecyclerView;
 
-    private WeatherData weatherData;
+    private WeatherDataParser weatherDataParser = new WeatherDataParser();
     private PersonalizedCalculations calculations;
 
     public TrailDetailsFragment(Trail trail) {
@@ -61,6 +63,9 @@ public class TrailDetailsFragment extends Fragment {
 
         //Populate page with selected trail data
         populateTrailData();
+
+        //Populate weather data from API
+        populateWeatherData(weatherDataParser.getWeatherData());
 
         downloadButton.setOnClickListener(v -> {
             if (downloadButtonState == false) {
