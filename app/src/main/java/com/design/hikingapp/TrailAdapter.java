@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.design.hikingapp.weather.WeatherDataParser;
+import com.design.hikingapp.weather.WeatherRepository;
+
 import java.util.List;
 
 public class TrailAdapter extends RecyclerView.Adapter<TrailAdapter.TrailViewHolder> {
@@ -48,7 +51,7 @@ public class TrailAdapter extends RecyclerView.Adapter<TrailAdapter.TrailViewHol
             bundle.putInt("trail_image", trail.getImageResource());  // Pass image resource ID
 
             // Open the TrailDetailFragment and pass the bundle with the data
-            TrailDetailsFragment detailFragment = new TrailDetailsFragment(trail);
+            TrailDetailsFragment detailFragment = new TrailDetailsFragment(trail, WeatherRepository.getInstance());
 
             // Assuming you're in an Activity context, you can load the fragment:
             FragmentActivity activity = (FragmentActivity) v.getContext();

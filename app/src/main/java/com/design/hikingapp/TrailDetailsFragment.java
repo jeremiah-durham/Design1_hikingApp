@@ -1,6 +1,7 @@
 package com.design.hikingapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.design.hikingapp.util.RepositoryCallback;
+import com.design.hikingapp.util.Result;
 import com.design.hikingapp.weather.WeatherDataParser;
+import com.design.hikingapp.weather.WeatherRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrailDetailsFragment extends Fragment {
 
-    private Trail trail;
+    private final Trail trail;
 
     private ImageButton downloadButton;
     private boolean downloadButtonState = false;
@@ -46,12 +50,13 @@ public class TrailDetailsFragment extends Fragment {
     private RecyclerView windRecyclerView;
 
     private RecyclerView packingRecyclerView;
-
-    private WeatherDataParser weatherDataParser = new WeatherDataParser();
     private PersonalizedCalculations calculations;
 
-    public TrailDetailsFragment(Trail trail) {
+    private final WeatherRepository weatherRepository;
+
+    public TrailDetailsFragment(Trail trail, WeatherRepository weatherRepository) {
         this.trail = trail;
+        this.weatherRepository = weatherRepository;
     }
 
     @Override
@@ -65,7 +70,20 @@ public class TrailDetailsFragment extends Fragment {
         populateTrailData();
 
         //Populate weather data from API
-        populateWeatherData(weatherDataParser.getWeatherData());
+        weatherRepository.fetchWeatherData(35.6764, 139.6500, new RepositoryCallback<WeatherData>() {
+            @Override
+            public void onComplete(Result<WeatherData> result) {
+                if (result instanceof Result.Success) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            populateWeatherData(((Result.Success<WeatherData>) result).data);
+                        }});
+                } else {
+                    Log.e("Trail Details Fragment", "An error occurred fetching weather data",((Result.Error<WeatherData>) result).exception);
+                }
+            }
+        });
 
         downloadButton.setOnClickListener(v -> {
             if (downloadButtonState == false) {

@@ -1,5 +1,6 @@
 package com.design.hikingapp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherData {
@@ -13,7 +14,11 @@ public class WeatherData {
     private int weatherBackground;
     private int snowDepthInches;
 
-
+    public WeatherData() {
+        hourlyTemperatures = new ArrayList<>();
+        hourlyPrecipitations = new ArrayList<>();
+        hourlyWinds = new ArrayList<>();
+    }
 
     public void addTemperature(int temperature, String condition, String time) {
         int imageResource = R.drawable.sunny_icon;
