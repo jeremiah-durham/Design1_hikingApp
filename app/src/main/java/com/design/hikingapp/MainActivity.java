@@ -4,6 +4,8 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 
+import com.design.hikingapp.backend.BackendRepository;
+import com.design.hikingapp.backend.TrailResponseParser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WeatherRepository.initRepo(new WeatherDataParser(), Executors.newSingleThreadScheduledExecutor());
+        BackendRepository.initRepo(new TrailResponseParser(), Executors.newSingleThreadScheduledExecutor());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
