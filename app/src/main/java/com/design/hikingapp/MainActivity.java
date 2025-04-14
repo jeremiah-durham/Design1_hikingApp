@@ -8,16 +8,24 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.design.hikingapp.databinding.ActivityMainBinding;
+import com.design.hikingapp.weather.WeatherDataParser;
+import com.design.hikingapp.weather.WeatherRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private BottomNavigationView bottomNavigationView;
 
+    private ExecutorService executorService = Executors.newFixedThreadPool(4);
+
     //this is a comment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WeatherRepository.initRepo(new WeatherDataParser(), Executors.newSingleThreadScheduledExecutor());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

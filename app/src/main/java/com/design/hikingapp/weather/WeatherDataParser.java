@@ -1,21 +1,16 @@
 package com.design.hikingapp.weather;
 import com.design.hikingapp.WeatherData;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WeatherDataParser {
     private WeatherData weatherData;
 
-    public WeatherDataParser() {
-        WeatherAPICall.getWeatherData(35.6764, 139.6500);
-        parseWeatherData("weather_data3.json");
-        this.weatherData = getWeatherData();
-    }
+    public WeatherDataParser() {};
 
     public void parseWeatherData(String jsonString) {
+            this.weatherData = new WeatherData();
             // Extract all required arrays from JSON
             String[] times = parseStringArray(extractArray(jsonString, "time"));
             double[] temps = parseDoubleArray(extractArray(jsonString, "temperature_2m"));
@@ -118,13 +113,5 @@ public class WeatherDataParser {
 
     public WeatherData getWeatherData() {
         return weatherData;
-    }
-
-
-    private void exampleCall() {
-        String response = WeatherAPICall.getWeatherData(35.6764, 139.6500); //placeholders. TODO: need to be replaced with variables from trail data
-        WeatherDataParser parser = new WeatherDataParser();
-        parser.parseWeatherData(response);
-        WeatherData weatherData = parser.getWeatherData();
     }
 }
