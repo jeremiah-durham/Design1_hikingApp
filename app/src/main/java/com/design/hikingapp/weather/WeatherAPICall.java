@@ -52,7 +52,7 @@ public class WeatherAPICall {
     }
 
     private static void writeToJsonFile(String jsonData) {
-        try (FileWriter file = new FileWriter("weather_data3.json");) {
+        try (FileWriter file = new FileWriter("weather_data3.json")) {
             file.write(jsonData);
             System.out.println("Weather data saved to weather_data.json");
         } catch (IOException e) {
