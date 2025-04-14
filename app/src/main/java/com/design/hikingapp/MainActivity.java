@@ -5,12 +5,9 @@ import androidx.fragment.app.Fragment;
 import android.opengl.Visibility;
 import android.os.Bundle;
 
-<<<<<<< HEAD
-=======
 import com.design.hikingapp.backend.BackendFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
->>>>>>> afd403d (App can talk to backend)
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.design.hikingapp.databinding.ActivityMainBinding;
