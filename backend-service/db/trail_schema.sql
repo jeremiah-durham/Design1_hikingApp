@@ -10,8 +10,8 @@ CREATE TABLE trails (
     id INT PRIMARY KEY AUTO_INCREMENT,
     park_id INT NOT NULL,
     trail_name VARCHAR(255) NOT NULL,
-    distance DEC,
-    elevation_delta DEC,
+    distance DEC(3,1),
+    elevation_delta DEC(6,1),
     difficulty ENUM("easy", "moderate", "hard"),
     est_time_min DEC,
 
