@@ -9,7 +9,9 @@ public class WeatherData {
 
     private int currentTemp;
     private int currentFeelsLike;
+    private String currentCondition;
     private int weatherBackground;
+    private int snowDepthInches;
 
 
 
@@ -38,9 +40,11 @@ public class WeatherData {
         hourlyWinds.add(new WindHour(speed, direction, time));
     }
 
-    public void addCurrentWeather(int currentTemp, int currentFeelsLike, String currentCondition) {
+    public void addCurrentWeather(int currentTemp, int currentFeelsLike, String currentCondition, int snowDepthInches) {
         this.currentTemp = currentTemp;
         this.currentFeelsLike = currentFeelsLike;
+        this.currentCondition = currentCondition;
+
         int backgroundResource = R.drawable.sunny_bg;
         switch (currentCondition) {
             case "SUNNY":
@@ -54,6 +58,7 @@ public class WeatherData {
             case "NIGHT":
                 backgroundResource = R.drawable.night_bg;
         }
+        this.snowDepthInches = snowDepthInches;
     }
 
     public List<TemperatureHour> getHourlyTemperatures() {
@@ -75,8 +80,14 @@ public class WeatherData {
     public int getCurrentFeelsLike() {
         return currentFeelsLike;
     }
+    public String getCurrentCondition() {
+        return currentCondition;
+    }
 
     public int getWeatherBackground() {
         return weatherBackground;
+    }
+    public int getSnowDepthInches() {
+        return snowDepthInches;
     }
 }

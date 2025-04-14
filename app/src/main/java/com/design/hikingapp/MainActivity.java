@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //Initialize bottom navbar
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = binding.bottomNavView;
+        bottomNavigationView.setVisibility(BottomNavigationView.GONE);
 
-        //Load intial profile gathering
+        // Load initial screen
         loadFragment(new InitialProfileFragment());
         //Disable navbar for this page
         bottomNavigationView.setVisibility(BottomNavigationView.GONE);
@@ -71,9 +71,5 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         bottomNavigationView.setVisibility(BottomNavigationView.VISIBLE);
         bottomNavigationView.setLabelVisibilityMode(BottomNavigationView.LABEL_VISIBILITY_UNLABELED);
-    }
-
-    public Fragment getCurrentFragment() {
-        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
 }

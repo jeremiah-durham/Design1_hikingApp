@@ -45,6 +45,9 @@ public class TrailDetailsFragment extends Fragment {
 
     private RecyclerView packingRecyclerView;
 
+    private WeatherData weatherData;
+    private PersonalizedCalculations calculations;
+
     public TrailDetailsFragment(Trail trail) {
         this.trail = trail;
     }
@@ -142,6 +145,10 @@ public class TrailDetailsFragment extends Fragment {
 
         WindAdapter adapter = new WindAdapter(weatherData.getHourlyWinds());
         windRecyclerView.setAdapter(adapter);
+
+        calculations = new PersonalizedCalculations(trail, weatherData, 140);
+
+        populatePackingList(calculations.getPackingList());
     }
 
     public void populatePackingList(List<PackingItem> packingList) {

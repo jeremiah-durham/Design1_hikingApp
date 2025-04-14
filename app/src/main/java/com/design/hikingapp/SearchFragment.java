@@ -250,6 +250,7 @@ public class SearchFragment extends Fragment {
             button.setImageResource(buttonState[0] ? clickedId : unclickedId);
         });
     }
+
     /**
      * Getters
      */

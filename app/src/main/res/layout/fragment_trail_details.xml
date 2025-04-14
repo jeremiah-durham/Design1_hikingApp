@@ -219,7 +219,6 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -259,10 +258,10 @@
                                 android:id="@+id/timeHrsText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"
                                 android:fontFamily="@font/lato_semibold"
                                 android:gravity="bottom"
                                 android:paddingStart="4dp"
+                                android:paddingEnd="6dp"
                                 android:paddingBottom="2dp"
                                 android:text="hr"
                                 android:textColor="@color/textPrimary"
@@ -272,10 +271,9 @@
                                 android:id="@+id/timeMinsValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"
                                 android:fontFamily="@font/lato_semibold"
                                 android:gravity="bottom"
-                                android:text="36"
+                                android:text="6"
                                 android:textAlignment="viewEnd"
                                 android:textColor="@color/textPrimary"
                                 android:textSize="24sp"

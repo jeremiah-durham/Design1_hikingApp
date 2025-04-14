@@ -27,11 +27,9 @@ public class Trail {
     public int getImageResource() {
         return imageResource;
     }
-
     public String getName() {
         return name;
     }
-
     public double getDistance() {
         return distance;
     }

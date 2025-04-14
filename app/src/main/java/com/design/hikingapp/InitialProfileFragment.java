@@ -2,6 +2,7 @@ package com.design.hikingapp;
 
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.LayoutInflater;
