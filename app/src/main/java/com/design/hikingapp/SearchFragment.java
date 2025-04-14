@@ -67,7 +67,6 @@ public class SearchFragment extends Fragment {
         // Initialize the trail list and adapter
         trailList = new ArrayList<>();
         trailAdapter = new TrailAdapter(trailList);
-
         BackendRepository repo = BackendRepository.getInstance();
         repo.fetchTrailList(null, (result) -> {
             if(result instanceof Result.Success) {
@@ -81,7 +80,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
+        SearchAttributes myList = new SearchAttributes();
         //Set click listener for closing the filters tab
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +88,16 @@ public class SearchFragment extends Fragment {
                 //Close drawer
                 drawerLayout.closeDrawer(GravityCompat.START);
                 clearTrails();
+                int minLen = Math.round(lengthSlider.getValues().get(0));
+                int maxLen = Math.round(lengthSlider.getValues().get(1));
+                int minEle = Math.round(elevationSlider.getValues().get(0));
+                int maxEle = Math.round(elevationSlider.getValues().get(1));
+                int minTime = Math.round(timeSlider.getValues().get(0));
+                int maxTime = Math.round(timeSlider.getValues().get(1));
+                myList.clear();
+                myList.setAll(bikingButtonState[0], mountainButtonState[0], riverButtonState[0], historicButtonState[0], forestButtonState[0], lakeButtonState[0],
+                        minLen, maxLen, easyCheckbox.isChecked(), moderateCheckbox.isChecked(), hardCheckbox.isChecked(), minEle, maxEle, minTime, maxTime);
+                System.out.println(myList);
                 updateResultsCount();
             }
         });
@@ -99,6 +108,8 @@ public class SearchFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     query = searchBar.getText().toString();
+                    myList.setQuery(query);
+                    System.out.println(myList);
                 }
             }
         });
@@ -235,7 +246,7 @@ public class SearchFragment extends Fragment {
         List<Float> values = slider.getValues();
         String minValue = values.get(0) + "";
         String maxValue = values.get(1) + "";
-        if (maxValue.equals("5")) {
+        if (maxValue.equals("5.0")) {
             maxValue = "5+";
         }
         timeRange.setText(minValue + "-" + maxValue + " hrs");
