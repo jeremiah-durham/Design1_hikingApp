@@ -1,6 +1,7 @@
 package com.design.hikingapp.backend;
 
 
+import android.util.JsonWriter;
 import android.util.Log;
 
 import com.design.hikingapp.Trail;
@@ -11,6 +12,9 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.StringBufferInputStream;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -57,15 +61,32 @@ public class BackendRepository {
         inst.executor = executor;
     }
 
-    private String generateTrailRequest(Object filter) {
-        String request = "{ \"fields\": [\"trail_name\", \"elevation_delta\", \"difficulty\", \"est_time_min\", \"distance\"] ";
+    private String generateTrailRequest(Object filter) throws IOException {
+        StringWriter strwtr = new StringWriter();
+        JsonWriter writer = new JsonWriter(strwtr);
+
+        writer.beginObject();
+        writer.name("fields")
+                .beginArray()
+                    .value("trail_name")
+                    .value("elevation_delta")
+                    .value("difficulty")
+                    .value("est_time_min")
+                    .value("distance")
+                .endArray();
         if(filter != null) {
-            throw new RuntimeException("filters not implemented");
+            writer.name("filters");
+            writer.beginObject();
+            // create filter fields here
+            // BEGIN FILTER FIELDS
+
+            // END FILTER FIELDS
+            writer.endObject();
         }
+        writer.endObject();
+        writer.close();
 
-        request += "}";
-
-        return request;
+        return strwtr.toString();
     }
 
     private Result<List<Trail>> trailSynchronousFetch(Object filter) {
