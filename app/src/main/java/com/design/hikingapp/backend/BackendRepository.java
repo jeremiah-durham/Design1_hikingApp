@@ -1,6 +1,8 @@
 package com.design.hikingapp.backend;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.JsonWriter;
 import android.util.Log;
 
@@ -11,9 +13,8 @@ import com.design.hikingapp.util.Result;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.StringBufferInputStream;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -109,6 +110,19 @@ public class BackendRepository {
             }
 
             List<Trail> trailList = responseParser.parse(con.getInputStream());
+
+            // tmp trail image population
+            trailList.forEach(trail -> {
+                Bitmap bmp = null;
+                try {
+                    InputStream in = new URL(HTTP_URL + "/img/" + "placeholderTrail.png").openStream();
+                    bmp = BitmapFactory.decodeStream(in);
+                } catch (Exception e) {
+                    // bah
+                }
+                trail.setImgBmp(bmp);
+            });
+
             return new Result.Success<List<Trail>>(trailList);
         } catch (Exception e) {
             return new Result.Error<List<Trail>>(e);

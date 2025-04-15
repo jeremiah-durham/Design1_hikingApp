@@ -1,5 +1,6 @@
 package com.design.hikingapp;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.design.hikingapp.util.RepositoryCallback;
 import com.design.hikingapp.util.Result;
-import com.design.hikingapp.weather.WeatherDataParser;
 import com.design.hikingapp.weather.WeatherRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrailDetailsFragment extends Fragment {
@@ -69,8 +68,11 @@ public class TrailDetailsFragment extends Fragment {
         //Populate page with selected trail data
         populateTrailData();
 
+        double lat = trail.getLat();
+        double lon = trail.getLon();
+
         //Populate weather data from API
-        weatherRepository.fetchWeatherData(35.6764, 139.6500, new RepositoryCallback<WeatherData>() {
+        weatherRepository.fetchWeatherData(lat, lon, new RepositoryCallback<WeatherData>() {
             @Override
             public void onComplete(Result<WeatherData> result) {
                 if (result instanceof Result.Success) {
@@ -141,7 +143,12 @@ public class TrailDetailsFragment extends Fragment {
     }
 
     private void populateTrailData() {
-        trailImage.setImageResource(trail.getImageResource());
+        Bitmap bmp = null;
+        if((bmp = trail.getImgBmp()) == null) {
+            trailImage.setImageResource(trail.getImageResource());
+        } else {
+            trailImage.setImageBitmap(bmp);
+        }
         name.setText(trail.getName());
         difficulty.setText(trail.getDifficulty());
         distance.setText("" + trail.getDistance());

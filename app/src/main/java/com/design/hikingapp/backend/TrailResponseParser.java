@@ -89,6 +89,10 @@ public class TrailResponseParser {
 
         reader.endObject();
 
-        return new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, trailName, distance, difficulty, (int)elevation, ((int)timeMin) / 60, ((int)timeMin)%60, 0);
+        Trail t = new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, trailName, distance, difficulty, (int)elevation, ((int)timeMin) / 60, ((int)timeMin)%60, 0);
+        if (lat != 0.0 && lon != 0.0) {
+            t.setLocation(lat, lon);
+        }
+        return t;
     }
 }

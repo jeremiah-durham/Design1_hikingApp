@@ -1,5 +1,6 @@
 package com.design.hikingapp;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.design.hikingapp.weather.WeatherDataParser;
 import com.design.hikingapp.weather.WeatherRepository;
 
 import java.util.List;
@@ -40,7 +40,13 @@ public class TrailAdapter extends RecyclerView.Adapter<TrailAdapter.TrailViewHol
         holder.trailName.setText(trail.getName());
         String trailDetails = trail.getDistance() + " mi  |  " + trail.getDifficulty() + "  |  Est. " + trail.getTimeHrs() + "hr " + trail.getTimeMins() + "min";
         holder.trailDetails.setText(trailDetails);
-        holder.trailImage.setImageResource(trail.getImageResource());
+        Bitmap bmp = null;
+        if((bmp = trail.getImgBmp()) == null) {
+            holder.trailImage.setImageResource(trail.getImageResource());
+        } else {
+            holder.trailImage.setImageBitmap(bmp);
+        }
+
 
         // Add click listener to the item view to pass data to the new page (Fragment or Activity)
         holder.itemView.setOnClickListener(v -> {

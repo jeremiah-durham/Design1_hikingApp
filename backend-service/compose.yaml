@@ -45,6 +45,8 @@ services:
   proxy:
     build: proxy
     restart: always
+    volumes:
+      - ./proxy/data:/data/img/
     ports:
       - 80:80
       - 433:433

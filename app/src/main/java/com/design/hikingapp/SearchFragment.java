@@ -73,9 +73,9 @@ public class SearchFragment extends Fragment {
             if(result instanceof Result.Success) {
                 Log.d("Search Frag", "Got success result");
                 if(((Result.Success<List<Trail>>) result).data != null)
-                getActivity().runOnUiThread(() -> {
-                    batchAddTrail(((Result.Success<List<Trail>>) result).data);
-                });
+                    getActivity().runOnUiThread(() -> {
+                        batchAddTrail(((Result.Success<List<Trail>>) result).data);
+                    });
             } else {
                 Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
             }
