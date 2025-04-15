@@ -60,22 +60,28 @@ public class TrailResponseParser {
         double elevation = 0;
         double timeMin = 0;
         double distance = 0;
+        double lat = 0.0;
+        double lon = 0.0;
 
         reader.beginObject();
         while(reader.hasNext()) {
             String name = reader.nextName();
-            if(reader.peek() == JsonToken.NULL) {
+            if (reader.peek() == JsonToken.NULL) {
                 reader.skipValue();
-            }else if(name.equals("trail_name")) {
+            } else if (name.equals("trail_name")) {
                 trailName = reader.nextString();
-            } else if(name.equals("difficulty")) {
+            } else if (name.equals("difficulty")) {
                 difficulty = reader.nextString();
-            } else if(name.equals("elevation_delta")) {
+            } else if (name.equals("elevation_delta")) {
                 elevation = reader.nextDouble();
-            } else if(name.equals("distance")) {
+            } else if (name.equals("distance")) {
                 distance = reader.nextDouble();
-            } else if(name.equals("est_time_min")) {
+            } else if (name.equals("est_time_min")) {
                 timeMin = reader.nextDouble();
+            } else if (name.equals("lat")) {
+                lat = reader.nextDouble();
+            } else if (name.equals("lon")) {
+                lon = reader.nextDouble();
             } else {
                 reader.skipValue();
             }

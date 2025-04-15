@@ -18,6 +18,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -73,6 +74,8 @@ public class BackendRepository {
                     .value("difficulty")
                     .value("est_time_min")
                     .value("distance")
+                    .value("lat")
+                    .value("lon")
                 .endArray();
         if(filter != null) {
             writer.name("filters");
@@ -98,7 +101,7 @@ public class BackendRepository {
             con.setDoOutput(true);
             con.setRequestProperty("Content-Type", "application/json");
             String requestString = generateTrailRequest(filter);
-            con.getOutputStream().write(requestString.getBytes("utf-8"));
+            con.getOutputStream().write(requestString.getBytes(StandardCharsets.UTF_8));
 
             int responseCode = con.getResponseCode();
             if(responseCode != HttpURLConnection.HTTP_OK) {
