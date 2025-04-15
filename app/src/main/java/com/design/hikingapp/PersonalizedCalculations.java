@@ -22,15 +22,15 @@ public class PersonalizedCalculations {
     private List<PackingItem> gear = new ArrayList<>();
 
     public PersonalizedCalculations(Trail trail, WeatherData weatherData, int weight) {
-        this.weight = weight;
+        this.weight = weight/2.205;
         this.distance = trail.getDistance();
         this.estimatedTime = (trail.getTimeHrs() * 60) + trail.getTimeMins();
         this.bagWeight = weight/10.0;
         this.elevationChange = trail.getElevation();
         this.velocity = (distance * 1609) / (estimatedTime * 60);
-        this.averageGrade = elevationChange / 6.9 * 5280;
+        this.averageGrade = elevationChange / (6.9 * 5280);
 
-        this.caloriesBurned = (1.5 * weight / 2.205) + (2 * (((weight / 2.205) + (bagWeight / 2.205)) * (((bagWeight / weight) * (bagWeight / weight)) / 2.205))) + terrainFactor * ((weight + bagWeight) / 2.205) * ((1.5 * velocity * velocity) + (.35 * velocity * averageGrade));
+        this.caloriesBurned = ((1.5 * weight) + (2 * (weight + bagWeight) * ((bagWeight / weight) * (bagWeight / weight))) + (terrainFactor * (weight + bagWeight) * ((1.5 * velocity * velocity) + (.35 * velocity * averageGrade))))*(estimatedTime/60.0);
 
         double waterNeeded;
         if (feelsLike > 75){

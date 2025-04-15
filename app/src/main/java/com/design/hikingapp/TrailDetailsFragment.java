@@ -171,6 +171,7 @@ public class TrailDetailsFragment extends Fragment {
 
         calculations = new PersonalizedCalculations(trail, weatherData, 140);
 
+        populatePersonalData(new UserHikeStats(calculations.getWaterNeeded(), calculations.getCaloriesBurned()));
         populatePackingList(calculations.getPackingList());
     }
 
