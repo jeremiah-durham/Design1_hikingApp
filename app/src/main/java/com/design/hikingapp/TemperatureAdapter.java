@@ -41,7 +41,7 @@ public class TemperatureAdapter extends RecyclerView.Adapter<TemperatureAdapter.
     @Override
     public void onBindViewHolder(@NonNull TemperatureAdapter.ViewHolder holder, int position) {
         TemperatureHour item = weatherList.get(position);
-        holder.temperatureText.setText(item.temperature);
+        holder.temperatureText.setText(""+item.temperature);
         holder.weatherIcon.setImageResource(item.iconResId);
         holder.timeText.setText(item.time);
     }
