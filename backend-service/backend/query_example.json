@@ -1,0 +1,30 @@
+{
+    "fields": [
+	"trail_name",
+	"park_name",
+	"difficulty",
+	"elevation_delta"
+    ],
+
+    "filters": {
+	"park_name": [
+	    "park a",
+	    "park c"
+	],
+	"elevation_delta": {
+	    "leq": 560.1,
+	    "geq": 100.0
+	},
+	"traits": {
+	    "biking": false,
+	    "hist_sites": true,
+	    "river":true
+	},
+	"difficulty": [
+	    "easy",
+	    "hard"
+	]
+    },
+
+    "max_count": 10
+}

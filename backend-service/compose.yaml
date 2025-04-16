@@ -1,0 +1,68 @@
+services:
+  db:
+    image: mysql:8.4
+
+    command: '--mysql-native-password=ON'
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="$$(cat /run/secrets/db-password)" --silent']
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./db/trail_schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./db/trail_data.sql:/docker-entrypoint-initdb.d/2.sql
+    networks:
+      - backnet
+    environment:
+      MYSQL_DATABASE: project
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db-password
+    expose:
+      - 3306
+      - 33060
+    ports:
+      - 3306:3306
+
+  backend:
+    build:
+      context: backend
+      target: builder
+    restart: always
+    secrets:
+      - db-password
+    ports:
+      - 8000:8000
+    networks:
+      - backnet
+      - frontnet
+    depends_on:
+      db:
+        condition: service_healthy
+
+  proxy:
+    build: proxy
+    restart: always
+    volumes:
+      - ./proxy/data:/data/img/
+    ports:
+      - 80:80
+      - 433:433
+    depends_on:
+      - backend
+    networks:
+      - frontnet
+
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/password.txt
+
+networks:
+  backnet:
+  frontnet:

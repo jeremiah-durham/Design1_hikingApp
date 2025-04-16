@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.design.hikingapp.backend.BackendRepository;
+import com.design.hikingapp.util.Result;
 import com.google.android.material.slider.RangeSlider;
 
 import java.util.ArrayList;
@@ -64,6 +67,19 @@ public class SearchFragment extends Fragment {
         // Initialize the trail list and adapter
         trailList = new ArrayList<>();
         trailAdapter = new TrailAdapter(trailList);
+
+        BackendRepository repo = BackendRepository.getInstance();
+        repo.fetchTrailList(null, (result) -> {
+            if(result instanceof Result.Success) {
+                Log.d("Search Frag", "Got success result");
+                if(((Result.Success<List<Trail>>) result).data != null)
+                    getActivity().runOnUiThread(() -> {
+                        batchAddTrail(((Result.Success<List<Trail>>) result).data);
+                    });
+            } else {
+                Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
+            }
+        });
 
 
         //Set click listener for closing the filters tab
@@ -225,7 +241,10 @@ public class SearchFragment extends Fragment {
         timeRange.setText(minValue + "-" + maxValue + " hrs");
     }
 
-
+    public void batchAddTrail(List<Trail> trails) {
+        trailList.addAll(trails);
+        updateResultsCount();
+    }
     public void addTrail(Trail trail) {
         //Replace sample image with trail image when possible
         trailList.add(trail);
