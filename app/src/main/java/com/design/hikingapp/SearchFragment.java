@@ -107,7 +107,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(trailAdapter);
 
         // Add sample data to the list (replace with addTrail when ready)
-        addTrail(new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, "Trailala", 10.0, "Moderate", 2000, 6, 3, 1));
+        addTrail(new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, "Upper Mule Deer Trail to Windy Saddle Overpass with more useless text", 10.0, "Moderate", 2000, 6, 3, 1));
 
         filtersButton.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);

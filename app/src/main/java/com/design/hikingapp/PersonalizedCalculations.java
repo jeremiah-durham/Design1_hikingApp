@@ -10,7 +10,7 @@ public class PersonalizedCalculations {
     private double terrainFactor = 1.2;
     private double estimatedTime;
     private double bagWeight;
-    private double elevationChange = 1761;
+    private double elevationChange;
     private double velocity;
     private double averageGrade;
     private String weatherCondition;
@@ -53,51 +53,51 @@ public class PersonalizedCalculations {
     }
 
     public List<PackingItem> getPackingList() {
-        gear.add(new PackingItem("First Aid Kit", R.drawable.profile_pic));
-        gear.add(new PackingItem("Multitool", R.drawable.profile_pic));
-        gear.add(new PackingItem("Cell Phone", R.drawable.profile_pic));
-        gear.add(new PackingItem("Portable Phone Charger", R.drawable.profile_pic));
+        gear.add(new PackingItem("First Aid Kit", R.drawable.backpack_icon));
+        gear.add(new PackingItem("Multitool", R.drawable.backpack_icon));
+        gear.add(new PackingItem("Cell Phone", R.drawable.backpack_icon));
+        gear.add(new PackingItem("Portable Phone Charger", R.drawable.backpack_icon));
 
-        if (feelsLike > 80 || weatherCondition.equals("SUNNY")) {
-            gear.add(new PackingItem("Sunscreen", R.drawable.profile_pic));
+        if (feelsLike > 80 || weatherCondition.equals("Sunny")) {
+            gear.add(new PackingItem("Sunscreen", R.drawable.backpack_icon));
         }
 
         if (feelsLike >= 55) {
-            gear.add(new PackingItem("Shorts", R.drawable.profile_pic));
+            gear.add(new PackingItem("Shorts", R.drawable.backpack_icon));
         } else {
-            gear.add(new PackingItem("Hiking Pants", R.drawable.profile_pic));
+            gear.add(new PackingItem("Hiking Pants", R.drawable.backpack_icon));
         }
 
         if (feelsLike <= 32) {
-            gear.add(new PackingItem("Thick Socks", R.drawable.profile_pic));
+            gear.add(new PackingItem("Thick Socks", R.drawable.backpack_icon));
         }
 
-        if (weatherCondition.equals("SUNNY") && feelsLike > 40) {
-            gear.add(new PackingItem("Hat", R.drawable.profile_pic));
+        if (weatherCondition.equals("Sunny") && feelsLike > 40) {
+            gear.add(new PackingItem("Hat", R.drawable.backpack_icon));
         }
 
         if (feelsLike < 20) {
-            gear.add(new PackingItem("Heavy Duty Gloves", R.drawable.profile_pic));
+            gear.add(new PackingItem("Heavy Duty Gloves", R.drawable.backpack_icon));
         } else if (feelsLike < 32) {
-            gear.add(new PackingItem("Medium Duty Gloves", R.drawable.profile_pic));
+            gear.add(new PackingItem("Medium Duty Gloves", R.drawable.backpack_icon));
         } else if (feelsLike < 45) {
-            gear.add(new PackingItem("Light Duty Gloves", R.drawable.profile_pic));
+            gear.add(new PackingItem("Light Duty Gloves", R.drawable.backpack_icon));
         }
 
-        if ((weatherCondition.equals("CLOUDY") || weatherCondition.equals("SNOWY")) && feelsLike < 32) {
-            gear.add(new PackingItem("Gaiter", R.drawable.profile_pic));
+        if ((weatherCondition.equals("Cloudy") || weatherCondition.equals("Snowy")) && feelsLike < 32) {
+            gear.add(new PackingItem("Gaiter", R.drawable.backpack_icon));
         }
         if (snowDepth >= 20) {
-            gear.add(new PackingItem("Snow Boots", R.drawable.profile_pic));
-            gear.add(new PackingItem("Snow Pants", R.drawable.profile_pic));
-            gear.add(new PackingItem("Waterproof Top Layer", R.drawable.profile_pic));
+            gear.add(new PackingItem("Snow Boots", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Snow Pants", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Waterproof Top Layer", R.drawable.backpack_icon));
         }
         if (feelsLike < 45) {
-            gear.add(new PackingItem("Extra Layers", R.drawable.profile_pic));
+            gear.add(new PackingItem("Extra Layers", R.drawable.backpack_icon));
         }
 
-        if (weatherCondition.equals("RAINY")) {
-            gear.add(new PackingItem("Raincoat", R.drawable.profile_pic));
+        if (weatherCondition.equals("Rainy")) {
+            gear.add(new PackingItem("Raincoat", R.drawable.backpack_icon));
         }
 
         return gear;
