@@ -98,6 +98,7 @@ public class BackendRepository {
         try {
             url = new URL(HTTP_URL+"/"+TRAIL_QUERY_PATH);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setConnectTimeout(200);
             con.setRequestMethod("POST");
             con.setDoOutput(true);
             con.setRequestProperty("Content-Type", "application/json");
