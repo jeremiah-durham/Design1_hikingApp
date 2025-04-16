@@ -12,6 +12,7 @@ public class WeatherData {
     private int currentFeelsLike;
     private String currentCondition;
     private int weatherBackground;
+    private int weatherIcon;
     private int snowDepthInches;
 
     public WeatherData() {
@@ -25,15 +26,25 @@ public class WeatherData {
         switch (condition) {
             case "Sunny":
                 imageResource = R.drawable.sunny_icon;
+                break;
             case "Cloudy":
                 imageResource = R.drawable.cloudy_icon;
+                break;
             case "Rainy":
                 imageResource = R.drawable.rainy_icon;
+                break;
             case "Snowy":
                 imageResource = R.drawable.snowy_icon;
-            case "Night":
-                imageResource = R.drawable.night_icon;
+                break;
         }
+
+        String ftime = time.split("T")[1].split(":")[0];
+        int integerTime = Integer.parseInt(ftime);
+
+        if ((integerTime < 7 || integerTime > 19) && condition.equals("Sunny")) {
+            imageResource = R.drawable.night_icon;
+        }
+
         hourlyTemperatures.add(new TemperatureHour(temperature, imageResource, formatTime(time)));
     }
 
@@ -45,24 +56,41 @@ public class WeatherData {
         hourlyWinds.add(new WindHour(speed, direction, formatTime(time)));
     }
 
-    public void addCurrentWeather(int currentTemp, int currentFeelsLike, String currentCondition, int snowDepthInches) {
+    public void addCurrentWeather(int currentTemp, int currentFeelsLike, String currentCondition, int snowDepthInches, String time) {
         this.currentTemp = currentTemp;
         this.currentFeelsLike = currentFeelsLike;
         this.currentCondition = currentCondition;
 
         int backgroundResource = R.drawable.sunny_bg;
+        int weatherIcon = R.drawable.sunny_icon;
         switch (currentCondition) {
-            case "SUNNY":
+            case "Sunny":
                 backgroundResource = R.drawable.sunny_bg;
-            case "CLOUDY":
+                weatherIcon = R.drawable.sunny_icon;
+                break;
+            case "Cloudy":
                 backgroundResource = R.drawable.cloudy_bg;
-            case "RAINY":
+                weatherIcon = R.drawable.cloudy_icon;
+                break;
+            case "Rainy":
                 backgroundResource = R.drawable.rainy_bg;
-            case "SNOWY":
+                weatherIcon = R.drawable.rainy_icon;
+                break;
+            case "Snowy":
                 backgroundResource = R.drawable.snowy_bg;
-            case "NIGHT":
-                backgroundResource = R.drawable.night_bg;
+                weatherIcon = R.drawable.snowy_icon;
+                break;
         }
+
+        String ftime = time.split("T")[1].split(":")[0];
+        int integerTime = Integer.parseInt(ftime);
+
+        if ((integerTime < 7 || integerTime > 19) && currentCondition.equals("Sunny")) {
+            backgroundResource = R.drawable.night_bg;
+            weatherIcon = R.drawable.night_icon;
+        }
+
+        this.weatherIcon = weatherIcon;
         this.weatherBackground = backgroundResource;
         this.snowDepthInches = snowDepthInches;
     }
@@ -92,6 +120,9 @@ public class WeatherData {
 
     public int getWeatherBackground() {
         return weatherBackground;
+    }
+    public int getWeatherIcon() {
+        return weatherIcon;
     }
     public int getSnowDepthInches() {
         return snowDepthInches;

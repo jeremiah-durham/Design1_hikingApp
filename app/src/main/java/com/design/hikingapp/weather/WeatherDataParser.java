@@ -28,12 +28,14 @@ public class WeatherDataParser {
                         (int)(temps[0]),
                         (int)(feelsLike[0]),
                         getWeatherCondition(weatherCodes[0]),
-                        (int)snowDepths[0]
+                        (int)snowDepths[0],
+                        times[0]
                 );
             }
 
             // Add hourly data
             for (int i = 0; i < times.length; i++) {
+                System.out.println(times[i]);
                 // Add temperature data
                 if (i < temps.length && i < weatherCodes.length) {
                     weatherData.addTemperature(

@@ -44,6 +44,7 @@ public class TrailDetailsFragment extends Fragment {
     private TextView currentTemperature;
     private TextView currentFeelsLike;
     private ImageView weatherBackground;
+    private ImageView weatherIcon;
 
     private RecyclerView weatherRecyclerView;
     private RecyclerView precipRecyclerView;
@@ -128,6 +129,7 @@ public class TrailDetailsFragment extends Fragment {
         currentTemperature = view.findViewById(R.id.degreesValue);
         currentFeelsLike = view.findViewById(R.id.feelsLikeValue);
         weatherBackground = view.findViewById(R.id.weatherBackgroundImage);
+        weatherIcon = view.findViewById(R.id.weatherIcon);
 
         //Initialize RecyclerViews for weather display
         weatherRecyclerView = view.findViewById(R.id.weatherRecyclerView);
@@ -150,15 +152,19 @@ public class TrailDetailsFragment extends Fragment {
         timeMins.setText("" + trail.getTimeMins());
     }
 
-    public void populatePersonalData(UserHikeStats userHikeStats) {
-        waterNeeded.setText("" + userHikeStats.getWaterNeeded());
-        calsBurned.setText("" + userHikeStats.getCaloriesBurned());
+    public void populatePersonalData(PersonalizedCalculations calculations) {
+        waterNeeded.setText(calculations.getWaterNeeded() + " oz");
+        calsBurned.setText("" + calculations.getCaloriesBurned() + " cal");
     }
 
     public void populateWeatherData(WeatherData weatherData) {
         currentTemperature.setText(weatherData.getCurrentTemp() + "°");
         currentFeelsLike.setText("feels like " + weatherData.getCurrentFeelsLike());
+
         weatherBackground.setImageResource(weatherData.getWeatherBackground());
+
+
+        weatherIcon.setImageResource(weatherData.getWeatherIcon());
 
         TemperatureAdapter weatherAdapter = new TemperatureAdapter(weatherData.getHourlyTemperatures());
         weatherRecyclerView.setAdapter(weatherAdapter);
@@ -171,6 +177,7 @@ public class TrailDetailsFragment extends Fragment {
 
         calculations = new PersonalizedCalculations(trail, weatherData, 140);
 
+        populatePersonalData(calculations);
         populatePackingList(calculations.getPackingList());
     }
 
