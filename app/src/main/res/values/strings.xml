@@ -9,7 +9,7 @@
     <string name="weight">Weight</string>
     <string name="lbs">lbs</string>
     <string name="em_contact">Emergency contact email</string>
-    <string name="disclaimer">Your physical profile information is private and will not be shared or made public. It is only used within the app to improve personalized recommendations for your hikes.</string>
+    <string name="disclaimer">Your profile information is private and will not be shared or made public. It is only used within the app to improve personalized recommendations for your hikes.</string>
     <string name="num_results">"0 results"</string>
 
     <string-array name="feet">

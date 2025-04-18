@@ -53,51 +53,51 @@ public class PersonalizedCalculations {
     }
 
     public List<PackingItem> getPackingList() {
-        gear.add(new PackingItem("First Aid Kit", R.drawable.backpack_icon));
-        gear.add(new PackingItem("Multitool", R.drawable.backpack_icon));
-        gear.add(new PackingItem("Cell Phone", R.drawable.backpack_icon));
-        gear.add(new PackingItem("Portable Phone Charger", R.drawable.backpack_icon));
+        gear.add(new PackingItem("First aid kit", R.drawable.packing_firstaid_icon));
+        gear.add(new PackingItem("Multitool", R.drawable.packing_multitool_icon));
+        gear.add(new PackingItem("Cell phone", R.drawable.packing_cellphone_icon));
+        gear.add(new PackingItem("Portable phone charger", R.drawable.packing_portable_charger_icon));
 
         if (feelsLike > 80 || weatherCondition.equals("Sunny")) {
-            gear.add(new PackingItem("Sunscreen", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Sunscreen", R.drawable.packing_sunscreen_icon));
         }
 
         if (feelsLike >= 55) {
-            gear.add(new PackingItem("Shorts", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Shorts", R.drawable.packing_shorts_icon));
         } else {
-            gear.add(new PackingItem("Hiking Pants", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Hiking pants", R.drawable.packing_hikingpants_icon));
         }
 
         if (feelsLike <= 32) {
-            gear.add(new PackingItem("Thick Socks", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Thick socks", R.drawable.packing_thicksocks_icon));
         }
 
         if (weatherCondition.equals("Sunny") && feelsLike > 40) {
-            gear.add(new PackingItem("Hat", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Hat", R.drawable.packing_hat_icon));
         }
 
         if (feelsLike < 20) {
-            gear.add(new PackingItem("Heavy Duty Gloves", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Heavy duty gloves", R.drawable.packing_gloves_icon));
         } else if (feelsLike < 32) {
-            gear.add(new PackingItem("Medium Duty Gloves", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Medium duty gloves", R.drawable.packing_gloves_icon));
         } else if (feelsLike < 45) {
-            gear.add(new PackingItem("Light Duty Gloves", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Light duty gloves", R.drawable.packing_gloves_icon));
         }
 
         if ((weatherCondition.equals("Cloudy") || weatherCondition.equals("Snowy")) && feelsLike < 32) {
-            gear.add(new PackingItem("Gaiter", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Face mask", R.drawable.packing_facemask_icon));
         }
-        if (snowDepth >= 20) {
-            gear.add(new PackingItem("Snow Boots", R.drawable.backpack_icon));
-            gear.add(new PackingItem("Snow Pants", R.drawable.backpack_icon));
-            gear.add(new PackingItem("Waterproof Top Layer", R.drawable.backpack_icon));
+        if (snowDepth >= 5) {
+            gear.add(new PackingItem("Snow Boots", R.drawable.packing_snowboots_icon));
+            gear.add(new PackingItem("Snow Pants", R.drawable.packing_snowpants_icon));
+            gear.add(new PackingItem("Waterproof Top Layer", R.drawable.packing_snowjacket_icon));
         }
         if (feelsLike < 45) {
-            gear.add(new PackingItem("Extra Layers", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Extra Layers", R.drawable.packing_sweatshirt_icon));
         }
 
         if (weatherCondition.equals("Rainy")) {
-            gear.add(new PackingItem("Raincoat", R.drawable.backpack_icon));
+            gear.add(new PackingItem("Raincoat", R.drawable.packing_raincoat_icon));
         }
 
         return gear;

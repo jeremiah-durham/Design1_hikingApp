@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 public class InitialProfileFragment extends Fragment {
 
+    private String name = "0'";
     private String heightFeet = "0'";
     private String heightInches = "0\"";
     private String weight = "140";
@@ -36,6 +37,7 @@ public class InitialProfileFragment extends Fragment {
 
         Spinner feetDropdown;
         Spinner inchesDropdown;
+        EditText nameText;
         EditText weightText;
         EditText emergencyEmailText;
         ImageButton nextButton;
@@ -45,6 +47,7 @@ public class InitialProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_initial_profile, container, false);
 
         // Find the spinner in the layout
+        nameText = rootView.findViewById(R.id.nameText);
         feetDropdown = rootView.findViewById(R.id.feetDropdown);
         inchesDropdown = rootView.findViewById(R.id.inchesDropdown);
         weightText = rootView.findViewById(R.id.editTextText);
