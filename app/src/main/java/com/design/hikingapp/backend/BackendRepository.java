@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.JsonWriter;
 import android.util.Log;
 
+import com.design.hikingapp.SearchAttributes;
 import com.design.hikingapp.Trail;
 import com.design.hikingapp.util.RepositoryCallback;
 import com.design.hikingapp.util.Result;
@@ -63,7 +64,7 @@ public class BackendRepository {
         inst.executor = executor;
     }
 
-    private String generateTrailRequest(Object filter) throws IOException {
+    private String generateTrailRequest(SearchAttributes filter) throws IOException {
         StringWriter strwtr = new StringWriter();
         JsonWriter writer = new JsonWriter(strwtr);
 
@@ -83,7 +84,41 @@ public class BackendRepository {
             writer.beginObject();
             // create filter fields here
             // BEGIN FILTER FIELDS
-
+            writer.name("elevation_delta");
+            writer.beginObject();
+                if(filter.getMinEle != 0){
+                    writer.name("leq").value(filter.getMinEle());
+                }
+                if(filter.getMaxEle != 2500){
+                    writer.name("geq").value(filter.getMaxEle());
+                }
+            writer.endObject();
+            writer.name("time");
+            writer.beginObject();
+            if(filter.getMinTime != 0){
+                writer.name("leq").value(filter.getMinTime());
+            }
+            if(filter.getMaxTime != 5){
+                writer.name("geq").value(filter.getMaxTime());
+            }
+            writer.endObject();
+            writer.name("traits");
+            writer.beginObject()
+                    .name("biking").value(filter.getBiking())
+                    .name("hist_sites").value(filter.getHistory())
+                    .name("river").value(filter.getRiver());
+            writer.endObject();
+            writer.name("difficulty").beginArray();
+                if(filter.getEasy()){
+                    writer.name("easy");
+                }
+                if(filter.getModerate()){
+                    writer.name("moderate");
+                }
+                if(filter.getHard()){
+                    writer.name("hard");
+                }
+            writer.endArray();
             // END FILTER FIELDS
             writer.endObject();
         }
@@ -93,7 +128,7 @@ public class BackendRepository {
         return strwtr.toString();
     }
 
-    private Result<List<Trail>> trailSynchronousFetch(Object filter) {
+    private Result<List<Trail>> trailSynchronousFetch(SearchAttributes filter) {
         URL url;
         try {
             url = new URL(HTTP_URL+"/"+TRAIL_QUERY_PATH);
@@ -130,7 +165,7 @@ public class BackendRepository {
     }
 
     public void fetchTrailList(
-            Object filter,
+            SearchAttributes filter,
             final RepositoryCallback<List<Trail>> callback
             ) {
         executor.execute(new Runnable() {

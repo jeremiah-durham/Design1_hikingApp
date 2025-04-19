@@ -98,7 +98,17 @@ public class SearchFragment extends Fragment {
                 myList.setAll(bikingButtonState[0], mountainButtonState[0], riverButtonState[0], historicButtonState[0], forestButtonState[0], lakeButtonState[0],
                         minLen, maxLen, easyCheckbox.isChecked(), moderateCheckbox.isChecked(), hardCheckbox.isChecked(), minEle, maxEle, minTime, maxTime);
                 System.out.println(myList);
-                updateResultsCount();
+                repo.fetchTrailList(myList, (result) -> {
+                    if(result instanceof Result.Success) {
+                        Log.d("Search Frag", "Got success result");
+                        if(((Result.Success<List<Trail>>) result).data != null)
+                            getActivity().runOnUiThread(() -> {
+                                batchAddTrail(((Result.Success<List<Trail>>) result).data);
+                            });
+                    } else {
+                        Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
+                    }
+                });
             }
         });
 
@@ -110,6 +120,17 @@ public class SearchFragment extends Fragment {
                     query = searchBar.getText().toString();
                     myList.setQuery(query);
                     System.out.println(myList);
+                    repo.fetchTrailList(myList, (result) -> {
+                        if(result instanceof Result.Success) {
+                            Log.d("Search Frag", "Got success result");
+                            if(((Result.Success<List<Trail>>) result).data != null)
+                                getActivity().runOnUiThread(() -> {
+                                    batchAddTrail(((Result.Success<List<Trail>>) result).data);
+                                });
+                        } else {
+                            Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
+                        }
+                    });
                 }
             }
         });
