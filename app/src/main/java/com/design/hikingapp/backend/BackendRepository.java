@@ -71,6 +71,7 @@ public class BackendRepository {
         writer.beginObject();
         writer.name("fields")
                 .beginArray()
+                    .value("trail_id")
                     .value("trail_name")
                     .value("elevation_delta")
                     .value("difficulty")

@@ -57,6 +57,7 @@ public class TrailResponseParser {
     private Trail readTrail(JsonReader reader) throws IOException {
         String trailName = "";
         String difficulty = "";
+        int trail_id = 0;
         double elevation = 0;
         double timeMin = 0;
         double distance = 0;
@@ -68,6 +69,8 @@ public class TrailResponseParser {
             String name = reader.nextName();
             if (reader.peek() == JsonToken.NULL) {
                 reader.skipValue();
+            } else if (name.equals("trail_id")) {
+                trail_id = reader.nextInt();
             } else if (name.equals("trail_name")) {
                 trailName = reader.nextString();
             } else if (name.equals("difficulty")) {
@@ -89,7 +92,7 @@ public class TrailResponseParser {
 
         reader.endObject();
 
-        Trail t = new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, trailName, distance, difficulty, (int)elevation, ((int)timeMin) / 60, ((int)timeMin)%60, 0);
+        Trail t = new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, trailName, distance, difficulty, (int)elevation, ((int)timeMin) / 60, ((int)timeMin)%60, trail_id);
         if (lat != 0.0 && lon != 0.0) {
             t.setLocation(lat, lon);
         }
