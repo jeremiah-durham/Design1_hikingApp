@@ -3,6 +3,8 @@ import decimal
 from flask import Flask, request, json
 import mysql.connector
 from abc import ABC, abstractmethod
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 QUERY_TAGS = {'fields', 'filters', 'count'}
 
@@ -129,12 +131,6 @@ class DBManager:
 
         self.cursor = self.connection.cursor()
 
-    def populate_db(self):
-        self.cursor.execute('DROP TABLE IF EXISTS blog')
-        self.cursor.execute('CREATE TABLE blog (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255))')
-        self.cursor.executemany('INSERT INTO blog (id, title) VALUES (%s, %s);', [(i, 'Blog post #%d' % i) for i in range(1, 5)])
-        self.connection.commit()
-
     def query_titles(self):
         self.cursor.execute('SELECT title FROM blog')
         rec = []
@@ -171,9 +167,13 @@ class JsonEncoder(json.JSONEncoder):
             return float(obj)
         return json.JSONEncoder.default(self, obj)
 
+
 server = Flask(__name__)
 server.json_encoder = JsonEncoder
 conn = None
+scheduler = BackgroundScheduler(daemon=True)
+
+
 
 @server.route('/')
 def getTrails():
@@ -234,5 +234,17 @@ def json_test():
 
         return out
 
+
+
+def my_job():
+    if os.environ.get('WERKZEUG_RUN_MAIN'): return
+    server.logger.warn("Task ran...")
+    server.logger.warn(os.environ.get('WERKZEUG_RUN_MAIN'))
+    # server.logger.debug(str(dir(server)))
+
+scheduler.add_job(func=my_job, id="test", trigger='interval', seconds=10)
+scheduler.start()
+
 if __name__ == '__main__':
-    server.run()
+    server.run(debug=False)
+    atexit.register(lambda: scheduler.shutdown())
