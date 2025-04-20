@@ -102,6 +102,46 @@ public class SearchAttributes {
         this.minTime = minTime;
         this.maxTime = maxTime;
     }
+    //getter functions
+    public String getMinEle(){
+        return "" + minEle;
+    }
+    public String getMaxEle(){
+        return "" + maxEle;
+    }
+    public String getMinTime(){
+        return "" + minTime;
+    }
+    public String getMaxTime(){
+        return "" + maxTime;
+    }
+    public boolean getBiking(){
+        return Biking;
+    }
+    public boolean getViews(){
+        return Views;
+    }
+    public boolean getHistory(){
+        return History;
+    }
+    public boolean getRiver(){
+        return River;
+    }
+    public boolean getLake(){
+        return Lake;
+    }
+    public boolean getForest(){
+        return Forest;
+    }
+    public boolean getEasy(){
+        return Easy;
+    }
+    public boolean getModerate(){
+        return Moderate;
+    }
+    public boolean getHard(){
+        return Hard;
+    }
 
     public void clearQuery(){
         this.searchBar = "";
