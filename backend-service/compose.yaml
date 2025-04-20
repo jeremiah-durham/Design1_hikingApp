@@ -14,7 +14,8 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./db/trail_schema.sql:/docker-entrypoint-initdb.d/1.sql
-      - ./db/trail_data.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./db/user_schema.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./db/trail_data.sql:/docker-entrypoint-initdb.d/3.sql
     networks:
       - backnet
     environment:
