@@ -1,8 +1,18 @@
-package com.design.hikingapp;
+package com.design.hikingapp.trail;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
-public class Trail {
+import com.design.hikingapp.util.FileStorable;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Trail implements FileStorable {
     private int imageResource;
     private int mapResource;
     private String name;
@@ -70,5 +80,62 @@ public class Trail {
 
     public int getId() {
         return id;
+    }
+
+
+    @Override
+    public void loadFromFile(File trailFile) throws IOException, SecurityException {
+        if(!trailFile.isFile()) {
+            throw new IOException(trailFile.getPath() + " does not exist or is not a file");
+        }
+
+        DataInputStream is = null;
+        try {
+            is = new DataInputStream(new FileInputStream(trailFile));
+            this.id = is.readInt();
+            boolean hasBmp = is.readBoolean();
+            if(hasBmp) {
+                this.imgBmp = BitmapFactory.decodeStream(is);
+            }
+            this.name = is.readUTF();
+
+
+
+        } catch (Exception e) {
+            throw new IOException(e);
+        } finally {
+            if (is != null)
+                is.close();
+        }
+    }
+    @Override
+    public void saveToFile(File trailDirectory) throws IOException, SecurityException {
+        if(!trailDirectory.isDirectory()) {
+            throw new IOException(trailDirectory.getPath() + " does not exist or is not a directory");
+        }
+
+        File trailFile = new File(trailDirectory, this.id + ".trl");
+        if(trailFile.exists()) {
+            throw new IOException(trailFile.getPath() + " already exists");
+        }
+
+        DataOutputStream out = null;
+        try {
+            trailFile.createNewFile();
+            out = new DataOutputStream(new FileOutputStream(trailFile));
+            out.writeInt(this.id);
+            out.writeBoolean(this.imgBmp != null);
+            if(this.imgBmp != null) {
+                // there is a bmp image associated with the trail, so lets save it
+                this.imgBmp.compress(Bitmap.CompressFormat.PNG, 0, out);
+            }
+            out.writeUTF(this.name);
+
+        } catch (Exception e) {
+            throw new IOException(e);
+        } finally {
+            if (out != null)
+                out.close();
+        }
     }
 }
