@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.design.hikingapp.user.UserRepository;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -138,6 +140,11 @@ public class InitialProfileFragment extends Fragment {
             }
 
             if(weightText.getError() == null && emergencyEmailText.getError() == null) {
+                // Create user info
+
+                UserRepository inst = UserRepository.getInstance();
+                inst.createUser("", getEmergencyEmail(), getWeight(), getHeightFeet()*12+getHeightInches());
+
                 //Load next page
                 mainActivity.loadFragment(new SearchFragment());
             }

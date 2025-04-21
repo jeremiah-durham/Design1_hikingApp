@@ -3,11 +3,13 @@ package com.design.hikingapp.backend;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.JsonReader;
 import android.util.JsonWriter;
 import android.util.Log;
 
 import com.design.hikingapp.SearchAttributes;
 import com.design.hikingapp.trail.Trail;
+import com.design.hikingapp.user.User;
 import com.design.hikingapp.util.RepositoryCallback;
 import com.design.hikingapp.util.Result;
 
@@ -31,6 +33,8 @@ public class BackendRepository {
      i.e. its the address of your computer */
     private static final String HTTP_URL = "http://10.0.2.2:80";
     private static final String TRAIL_QUERY_PATH = "json";
+    private static final String USER_QUERY_PATH = "user";
+    private static final int CONNECTION_TIMEOUT = 200;
 
     private static BackendRepository instance;
     private TrailResponseParser responseParser;
@@ -169,7 +173,7 @@ public class BackendRepository {
         try {
             url = new URL(HTTP_URL+"/"+TRAIL_QUERY_PATH);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(200);
+            con.setConnectTimeout(CONNECTION_TIMEOUT);
             con.setRequestMethod("POST");
             con.setDoOutput(true);
             con.setRequestProperty("Content-Type", "application/json");
@@ -213,6 +217,89 @@ public class BackendRepository {
                     callback.onComplete(result);
                 } catch (Exception e) {
                     Result<List<Trail>> errorResult = new Result.Error<>(e);
+                    callback.onComplete(errorResult);
+                }
+            }
+        });
+    }
+
+    private String generateCreateUserRequest(User user) throws IOException {
+        StringWriter strwtr = new StringWriter();
+        JsonWriter writer = new JsonWriter(strwtr);
+
+        writer.beginObject();
+        writer.name("name").value(user.getName());
+        writer.name("eemail").value(user.getEemail());
+        writer.name("weight").value(user.getWeight());
+        writer.name("height").value(user.getHeight());
+        writer.endObject();
+        writer.close();
+
+        return strwtr.toString();
+    }
+    private Result<String> createUserSynchronousPost(User user) {
+        URL url;
+        HttpURLConnection con = null;
+        try {
+            url = new URL(HTTP_URL + "/" + USER_QUERY_PATH);
+            con = (HttpURLConnection) url.openConnection();
+            con.setConnectTimeout(CONNECTION_TIMEOUT);
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.setRequestProperty("Content-Type", "application/json");
+            String requestString = generateCreateUserRequest(user);
+            con.getOutputStream().write(requestString.getBytes(StandardCharsets.UTF_8));
+
+            int responseCode = con.getResponseCode();
+            if(responseCode != HttpURLConnection.HTTP_OK) {
+                return new Result.Error<String>(new Exception("Backend Api returned response code: " + responseCode));
+            }
+
+            String uuid = null;
+            // inline response parser
+            JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+            try {
+                // read response object
+                reader.beginObject();
+                while(reader.hasNext()) {
+                    String name = reader.nextName();
+                    if(name.equals("uuid")) {
+                        uuid = reader.nextString();
+                    } else {
+                        reader.skipValue();
+                    }
+                }
+                reader.endObject();
+            } finally {
+                reader.close();
+            }
+
+            if(uuid != null) {
+                return new Result.Success<String>(uuid);
+            } else {
+                return new Result.Error<String>(new Exception("did not get uuid response object"));
+            }
+
+        } catch (Exception e) {
+            return new Result.Error<String>(e);
+        } finally {
+            if (con != null)
+                con.disconnect();
+        }
+    }
+
+    public void createUserRequest(
+            User user,
+            final RepositoryCallback<String> callback
+    ) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Result<String> result = createUserSynchronousPost(user);
+                    callback.onComplete(result);
+                } catch (Exception e) {
+                    Result<String> errorResult = new Result.Error<>(e);
                     callback.onComplete(errorResult);
                 }
             }

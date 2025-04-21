@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.design.hikingapp.backend.BackendRepository;
 import com.design.hikingapp.backend.TrailResponseParser;
+import com.design.hikingapp.user.UserRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.design.hikingapp.databinding.ActivityMainBinding;
 import com.design.hikingapp.weather.WeatherDataParser;
 import com.design.hikingapp.weather.WeatherRepository;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,16 +31,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         WeatherRepository.initRepo(new WeatherDataParser(), Executors.newSingleThreadScheduledExecutor());
         BackendRepository.initRepo(new TrailResponseParser(), Executors.newSingleThreadScheduledExecutor());
+        UserRepository.initRepo(getFilesDir());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         bottomNavigationView = binding.bottomNavView;
         bottomNavigationView.setVisibility(BottomNavigationView.GONE);
 
-        // Load initial screen
-        loadFragment(new InitialProfileFragment());
-        //Disable navbar for this page
-        bottomNavigationView.setVisibility(BottomNavigationView.GONE);
+        // try loading user profile
+        if(!UserRepository.getInstance().loadUser()) {
+            // if loading failed, then create new user
+
+            // Load initial screen
+            loadFragment(new InitialProfileFragment());
+            //Disable navbar for this page
+            bottomNavigationView.setVisibility(BottomNavigationView.GONE);
+        } else {
+            // load search screen
+            loadFragment(new SearchFragment());
+        }
 
         // Set up fragment transaction for item clicks
         bottomNavigationView.setOnItemSelectedListener(item -> {
