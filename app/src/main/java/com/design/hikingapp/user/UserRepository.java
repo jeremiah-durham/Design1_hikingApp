@@ -42,6 +42,10 @@ public class UserRepository {
         return isUserLoaded();
     }
 
+    public User getUser() {
+        return this.user;
+    }
+
     public void saveUser() {
         try {
             user.saveToFile(userFile);

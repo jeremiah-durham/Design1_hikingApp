@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.design.hikingapp.user.User;
+import com.design.hikingapp.user.UserRepository;
+
 public class ProfileFragment extends Fragment {
     private TextView nameText;
     private TextView heightText;
@@ -24,7 +27,9 @@ public class ProfileFragment extends Fragment {
         weightText = view.findViewById(R.id.profileWeightText);
         emergencyContactText = view.findViewById(R.id.profileEmergencyText);
 
-        setProfile("Example Name", 63, 100, "example@gmail.com");
+        User user = UserRepository.getInstance().getUser();
+
+        setProfile(user.getName(), user.getHeight(), user.getWeight(), user.getEemail());
 
         return view;
     }

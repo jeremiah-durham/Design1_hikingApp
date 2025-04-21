@@ -64,7 +64,16 @@ public class InitialProfileFragment extends Fragment {
         nextButton = rootView.findViewById(R.id.imageButton);
 
 
-        // add text validators to weight and eemail
+        // add text validators to name, weight and eemail
+        nameText.addTextChangedListener(new TextValidator(nameText) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.isEmpty()) {
+                    textView.setError("Name cannot be empty");
+                }
+            }
+        });
+
         weightText.addTextChangedListener(new TextValidator(weightText) {
             @Override
             public void validate(TextView textView, String text) {
@@ -130,6 +139,7 @@ public class InitialProfileFragment extends Fragment {
             //Update weight and emergency email
             weight = weightText.getText().toString();
             emergencyEmail = emergencyEmailText.getText().toString();
+            name = nameText.getText().toString();
             nextButton.setImageResource(R.drawable.next_clicked);
 
             if(weight.isEmpty()) {
@@ -139,11 +149,11 @@ public class InitialProfileFragment extends Fragment {
                 emergencyEmailText.setError("Email cannot be empty");
             }
 
-            if(weightText.getError() == null && emergencyEmailText.getError() == null) {
+            if(weightText.getError() == null && emergencyEmailText.getError() == null && nameText.getError() == null) {
                 // Create user info
 
                 UserRepository inst = UserRepository.getInstance();
-                inst.createUser("", getEmergencyEmail(), getWeight(), getHeightFeet()*12+getHeightInches());
+                inst.createUser(getName(), getEmergencyEmail(), getWeight(), getHeightFeet()*12+getHeightInches());
 
                 //Load next page
                 mainActivity.loadFragment(new SearchFragment());
@@ -167,6 +177,10 @@ public class InitialProfileFragment extends Fragment {
     }
     public String getEmergencyEmail() {
         return emergencyEmail;
+    }
+
+    public String getName() {
+        return name;
     }
 
     private abstract class TextValidator implements TextWatcher {

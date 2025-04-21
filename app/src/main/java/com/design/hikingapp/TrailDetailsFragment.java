@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.design.hikingapp.trail.Trail;
+import com.design.hikingapp.user.UserRepository;
 import com.design.hikingapp.util.RepositoryCallback;
 import com.design.hikingapp.util.Result;
 import com.design.hikingapp.weather.WeatherRepository;
@@ -183,7 +184,7 @@ public class TrailDetailsFragment extends Fragment {
         WindAdapter adapter = new WindAdapter(weatherData.getHourlyWinds());
         windRecyclerView.setAdapter(adapter);
 
-        calculations = new PersonalizedCalculations(trail, weatherData, 140);
+        calculations = new PersonalizedCalculations(trail, weatherData, UserRepository.getInstance().getUser().getWeight());
 
         populatePersonalData(calculations);
         populatePackingList(calculations.getPackingList());
