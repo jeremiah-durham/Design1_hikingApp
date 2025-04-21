@@ -3,6 +3,8 @@ package com.design.hikingapp;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.LayoutInflater;
@@ -14,9 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InitialProfileFragment extends Fragment {
 
@@ -25,6 +30,8 @@ public class InitialProfileFragment extends Fragment {
     private String heightInches = "0\"";
     private String weight = "140";
     private String emergencyEmail;
+
+    private final static String EMAIL_PATTERN = "^[_A-Za-z0-9'!#$%^&*`{|}+=?~-]+(\\.[_A-Za-z0-9'!#$%^&*`{|}+=?~-]+)*@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*\\.[a-zA-Z]{2,}$";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,29 @@ public class InitialProfileFragment extends Fragment {
         weightText = rootView.findViewById(R.id.editTextText);
         emergencyEmailText = rootView.findViewById(R.id.editTextText2);
         nextButton = rootView.findViewById(R.id.imageButton);
+
+
+        // add text validators to weight and eemail
+        weightText.addTextChangedListener(new TextValidator(weightText) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.isEmpty()) {
+                    textView.setError("Weight cannot be empty");
+                }
+            }
+        });
+
+        emergencyEmailText.addTextChangedListener(new TextValidator(emergencyEmailText) {
+            final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+            @Override
+            public void validate(TextView textView, String text) {
+                Matcher matcher = pattern.matcher(text);
+                if (!matcher.find()) {
+                   textView.setError("Invalid Email Address");
+                }
+            }
+        });
+
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> feetAdapter = ArrayAdapter.createFromResource(getContext(),
@@ -100,8 +130,17 @@ public class InitialProfileFragment extends Fragment {
             emergencyEmail = emergencyEmailText.getText().toString();
             nextButton.setImageResource(R.drawable.next_clicked);
 
-            //Load next page
-            mainActivity.loadFragment(new SearchFragment());
+            if(weight.isEmpty()) {
+                weightText.setError("Weight cannot be empty");
+            }
+            if(emergencyEmail.isEmpty()) {
+                emergencyEmailText.setError("Email cannot be empty");
+            }
+
+            if(weightText.getError() == null && emergencyEmailText.getError() == null) {
+                //Load next page
+                mainActivity.loadFragment(new SearchFragment());
+            }
         });
 
         return rootView;
@@ -121,5 +160,25 @@ public class InitialProfileFragment extends Fragment {
     }
     public String getEmergencyEmail() {
         return emergencyEmail;
+    }
+
+    private abstract class TextValidator implements TextWatcher {
+        private final TextView textView;
+
+        public TextValidator(TextView textView) {
+            this.textView = textView;
+        }
+
+        public abstract void validate(TextView textView, String text);
+
+        @Override
+        final public void afterTextChanged(Editable s) {
+            String text = textView.getText().toString();
+            validate(textView, text);
+        }
+        @Override
+        final public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        @Override
+        final public void onTextChanged(CharSequence s, int start, int before, int count) {}
     }
 }
