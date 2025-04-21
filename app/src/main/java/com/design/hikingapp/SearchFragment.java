@@ -97,7 +97,6 @@ public class SearchFragment extends Fragment {
                 myList.clear();
                 myList.setAll(bikingButtonState[0], mountainButtonState[0], riverButtonState[0], historicButtonState[0], forestButtonState[0], lakeButtonState[0],
                         minLen, maxLen, easyCheckbox.isChecked(), moderateCheckbox.isChecked(), hardCheckbox.isChecked(), minEle, maxEle, minTime, maxTime);
-                System.out.println(myList);
 
                 repo.fetchTrailList(myList, (result) -> {
                     if(result instanceof Result.Success) {
@@ -123,7 +122,6 @@ public class SearchFragment extends Fragment {
                 if (!hasFocus) {
                     query = searchBar.getText().toString();
                     myList.setQuery(query);
-                    System.out.println(myList);
 
                     repo.fetchTrailList(myList, (result) -> {
                         if(result instanceof Result.Success) {
