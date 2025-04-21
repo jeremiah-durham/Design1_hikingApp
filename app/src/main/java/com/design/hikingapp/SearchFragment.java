@@ -92,12 +92,13 @@ public class SearchFragment extends Fragment {
                 int maxLen = Math.round(lengthSlider.getValues().get(1));
                 int minEle = Math.round(elevationSlider.getValues().get(0));
                 int maxEle = Math.round(elevationSlider.getValues().get(1));
-                int minTime = Math.round(timeSlider.getValues().get(0));
-                int maxTime = Math.round(timeSlider.getValues().get(1));
+                double minTime = timeSlider.getValues().get(0);
+                double maxTime = timeSlider.getValues().get(1);
                 myList.clear();
                 myList.setAll(bikingButtonState[0], mountainButtonState[0], riverButtonState[0], historicButtonState[0], forestButtonState[0], lakeButtonState[0],
                         minLen, maxLen, easyCheckbox.isChecked(), moderateCheckbox.isChecked(), hardCheckbox.isChecked(), minEle, maxEle, minTime, maxTime);
                 System.out.println(myList);
+
                 repo.fetchTrailList(myList, (result) -> {
                     if(result instanceof Result.Success) {
                         Log.d("Search Frag", "Got success result");
@@ -109,6 +110,9 @@ public class SearchFragment extends Fragment {
                         Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
                     }
                 });
+
+                updateResultsCount();
+
             }
         });
 
@@ -120,6 +124,7 @@ public class SearchFragment extends Fragment {
                     query = searchBar.getText().toString();
                     myList.setQuery(query);
                     System.out.println(myList);
+
                     repo.fetchTrailList(myList, (result) -> {
                         if(result instanceof Result.Success) {
                             Log.d("Search Frag", "Got success result");
@@ -131,6 +136,7 @@ public class SearchFragment extends Fragment {
                             Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
                         }
                     });
+
                 }
             }
         });

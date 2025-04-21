@@ -34,8 +34,8 @@ public class SearchAttributes {
         this.Hard = false;
         this.minEle = 0;
         this.maxEle = 2500;
-        this.minTime = 0;
-        this.maxTime = 5;
+        this.minTime = 0.0;
+        this.maxTime = 5.0;
         this.searchBar = "";
     }
     public SearchAttributes(boolean Biking, boolean Views, boolean River, boolean History, boolean Forest,
@@ -79,8 +79,8 @@ public class SearchAttributes {
         this.Hard = false;
         this.minEle = 0;
         this.maxEle = 2500;
-        this.minTime = 0;
-        this.maxTime = 5;
+        this.minTime = 0.0;
+        this.maxTime = 5.0;
     }
     public void setAll(boolean Biking, boolean Views, boolean River, boolean History, boolean Forest,
                        boolean Lake, int minLen, int maxLen, boolean Easy,
@@ -102,18 +102,25 @@ public class SearchAttributes {
         this.minTime = minTime;
         this.maxTime = maxTime;
     }
+
     //getter functions
-    public String getMinEle(){
-        return "" + minEle;
+    public int getMinEle(){
+        return minEle;
     }
-    public String getMaxEle(){
-        return "" + maxEle;
+    public int getMaxEle(){
+        return maxEle;
     }
-    public String getMinTime(){
-        return "" + minTime;
+    public int getMinLen(){
+        return minLen;
     }
-    public String getMaxTime(){
-        return "" + maxTime;
+    public int getMaxLen(){
+        return maxLen;
+    }
+    public double getMinTime(){
+        return minTime;
+    }
+    public double getMaxTime(){
+        return maxTime;
     }
     public boolean getBiking(){
         return Biking;
@@ -142,10 +149,12 @@ public class SearchAttributes {
     public boolean getHard(){
         return Hard;
     }
-
+/*
     public void clearQuery(){
         this.searchBar = "";
     }
+
+ */
 
     public void setQuery(String Query){
         this.searchBar = Query;
