@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.JsonWriter;
 import android.util.Log;
 
+import com.design.hikingapp.SearchAttributes;
 import com.design.hikingapp.Trail;
 import com.design.hikingapp.util.RepositoryCallback;
 import com.design.hikingapp.util.Result;
@@ -63,7 +64,7 @@ public class BackendRepository {
         inst.executor = executor;
     }
 
-    private String generateTrailRequest(Object filter) throws IOException {
+    private String generateTrailRequest(SearchAttributes filter) throws IOException {
         StringWriter strwtr = new StringWriter();
         JsonWriter writer = new JsonWriter(strwtr);
 
@@ -83,7 +84,76 @@ public class BackendRepository {
             writer.beginObject();
             // create filter fields here
             // BEGIN FILTER FIELDS
-
+            if(filter.getMaxEle() != 2500 || filter.getMinEle() != 0){
+                writer.name("elevation_delta");
+                writer.beginObject();
+                if(filter.getMaxEle() != 2500){
+                    writer.name("leq").value(filter.getMaxEle());
+                }
+                if(filter.getMinEle() != 0){
+                    writer.name("geq").value(filter.getMinEle());
+                }
+                writer.endObject();
+            }
+            if(filter.getMaxTime() != 5.0 || filter.getMinTime() != 0.0) {
+                writer.name("est_time_min");
+                writer.beginObject();
+                if (filter.getMaxTime() != 5.0) {
+                    writer.name("leq").value(filter.getMaxTime()*60.0);
+                }
+                if (filter.getMinTime() != 0.0) {
+                    writer.name("geq").value(filter.getMinTime()*60.0);
+                }
+                writer.endObject();
+            }
+            if(filter.getMaxLen() != 15 || filter.getMinLen() != 0) {
+                writer.name("distance");
+                writer.beginObject();
+                if (filter.getMaxLen() != 15) {
+                    writer.name("leq").value(filter.getMaxLen());
+                }
+                if (filter.getMinLen() != 0) {
+                    writer.name("geq").value(filter.getMinLen());
+                }
+                writer.endObject();
+            }
+            if(filter.getBiking() || filter.getViews() || filter.getLake() ||
+                    filter.getForest() || filter.getHistory() || filter.getRiver()) {
+                writer.name("traits");
+                writer.beginObject();
+                        if(filter.getBiking()) {
+                            writer.name("biking").value(filter.getBiking());
+                        }
+                        if(filter.getViews()) {
+                            writer.name("mountain_views").value(filter.getViews());
+                        }
+                        if(filter.getLake()) {
+                            writer.name("lake").value(filter.getLake());
+                        }
+                        if(filter.getForest()) {
+                            writer.name("forest").value(filter.getForest());
+                        }
+                        if(filter.getHistory()) {
+                            writer.name("hist_sites").value(filter.getHistory());
+                        }
+                        if(filter.getRiver()) {
+                            writer.name("river").value(filter.getRiver());
+                        }
+                writer.endObject();
+            }
+            if(filter.getEasy() || filter.getModerate() || filter.getHard()) {
+                writer.name("difficulty").beginArray();
+                if (filter.getEasy()) {
+                    writer.value("easy");
+                }
+                if (filter.getModerate()) {
+                    writer.value("moderate");
+                }
+                if (filter.getHard()) {
+                    writer.value("hard");
+                }
+                writer.endArray();
+            }
             // END FILTER FIELDS
             writer.endObject();
         }
@@ -93,7 +163,7 @@ public class BackendRepository {
         return strwtr.toString();
     }
 
-    private Result<List<Trail>> trailSynchronousFetch(Object filter) {
+    private Result<List<Trail>> trailSynchronousFetch(SearchAttributes filter) {
         URL url;
         try {
             url = new URL(HTTP_URL+"/"+TRAIL_QUERY_PATH);
@@ -131,7 +201,7 @@ public class BackendRepository {
     }
 
     public void fetchTrailList(
-            Object filter,
+            SearchAttributes filter,
             final RepositoryCallback<List<Trail>> callback
             ) {
         executor.execute(new Runnable() {
