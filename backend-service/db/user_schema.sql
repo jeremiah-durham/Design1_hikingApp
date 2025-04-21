@@ -4,8 +4,7 @@ USE project;
 CREATE TABLE users (
     pk INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     uuid binary(16) NOT NULL,
-    fname VARCHAR(32) NOT NULL,
-    lname VARCHAR(32) NOT NULL,
+    name VARCHAR(128) NOT NULL,
     eemail VARCHAR(255) NOT NULL,
     weight INT NOT NULL,
     height INT NOT NULL,

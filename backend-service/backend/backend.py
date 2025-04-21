@@ -152,6 +152,20 @@ class DBManager:
             res.append(c)
         return json.jsonify(list(map(lambda x: {k:v for (k,v) in zip(cols, x)}, res)))
 
+    def create_user(self, user:dict):
+        insertstr = 'INSERT INTO users(uuid, name, eemail, weight, height) VALUES ('
+        insertstr += '@uuid := UUID_TO_BIN(UUID()), '
+        insertstr += ' ,'.join([f'"{user["name"]}"', f'"{user["eemail"]}"', str(user['weight']), str(user['height'])])
+        insertstr += ' )'
+        self.cursor.execute(insertstr)
+        self.connection.commit()
+        self.cursor.execute('SELECT @uuid')
+        res = ''
+        for c in self.cursor:
+            res=c[0]
+        return res.hex()
+        
+
     def query_columns(self):
         res = set()
         for t in ['trails', 'traits', 'parks']:
@@ -234,7 +248,29 @@ def json_test():
 
         return out
 
-
+@server.post('/user')
+def create_user():
+    global conn
+    if not conn:
+        conn = DBManager(
+                database='project',
+                password_file='/run/secrets/db-password'
+        )
+    if not request.is_json:
+        return "<div> Please post a JSON request </div>"
+    else:
+        data = None
+        try:
+            data = request.get_json()
+        except Exception as e:
+            return json.jsonify({"message":"got bad data", "error":str(e)})
+        if set(data.keys()) != {'name','weight','height','eemail'}:
+            return {"message":f"request has invalid entries: f{set(data.keys()) - {'name','weight','height','eemail'}}"}
+        
+        # do user creation process
+        uuid = conn.create_user(data)
+        server.logger.debug(f"Created user with uuid {uuid}")
+        return {'uuid':uuid}
 
 def my_job():
     if os.environ.get('WERKZEUG_RUN_MAIN'): return

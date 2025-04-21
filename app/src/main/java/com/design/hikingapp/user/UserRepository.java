@@ -60,7 +60,7 @@ public class UserRepository {
         BackendRepository repo = BackendRepository.getInstance();
         repo.createUserRequest(user, (result) -> {
             if (result instanceof Result.Success) {
-                Log.d("User Repo", "Create user success!");
+                Log.d("User Repo", "Create user success! uuid: " + ((Result.Success<String>) result).data);
                 user.setUUID(((Result.Success<String>) result).data);
             } else {
                 Log.e("User Repo", "Create user got error result", ((Result.Error<String>) result).exception);
