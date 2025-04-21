@@ -5,7 +5,7 @@ import android.util.JsonToken;
 import android.util.Log;
 
 import com.design.hikingapp.R;
-import com.design.hikingapp.Trail;
+import com.design.hikingapp.trail.Trail;
 
 import java.io.BufferedReader;
 import java.io.IOException;

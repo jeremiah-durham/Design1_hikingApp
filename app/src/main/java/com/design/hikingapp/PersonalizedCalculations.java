@@ -1,5 +1,7 @@
 package com.design.hikingapp;
 
+import com.design.hikingapp.trail.Trail;
+
 import java.util.ArrayList;
 import java.util.List;
 

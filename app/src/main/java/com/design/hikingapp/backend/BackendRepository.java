@@ -7,7 +7,7 @@ import android.util.JsonWriter;
 import android.util.Log;
 
 import com.design.hikingapp.SearchAttributes;
-import com.design.hikingapp.Trail;
+import com.design.hikingapp.trail.Trail;
 import com.design.hikingapp.util.RepositoryCallback;
 import com.design.hikingapp.util.Result;
 

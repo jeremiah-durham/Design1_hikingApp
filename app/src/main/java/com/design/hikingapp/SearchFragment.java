@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.design.hikingapp.backend.BackendRepository;
+import com.design.hikingapp.trail.Trail;
 import com.design.hikingapp.util.Result;
 import com.google.android.material.slider.RangeSlider;
 

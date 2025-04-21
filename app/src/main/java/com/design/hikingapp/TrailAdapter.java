@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.design.hikingapp.trail.Trail;
 import com.design.hikingapp.weather.WeatherRepository;
 
 import java.util.List;
