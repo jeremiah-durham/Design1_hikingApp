@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.design.hikingapp.trail.Trail;
+import com.design.hikingapp.trail.TrailRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,10 @@ public class SavedFragment extends Fragment {
 
         // Initialize the trail list and adapter
         trailList = new ArrayList<>();
+
+        // load in our trails from TrailRepo
+        trailList = TrailRepository.getInstance().getLoadedTrails();
+
         trailAdapter = new SavedTrailAdapter(trailList);
 
         // Set up the RecyclerView with the adapter and layout manager
@@ -38,7 +43,7 @@ public class SavedFragment extends Fragment {
         recyclerView.setAdapter(trailAdapter);
 
         // Add sample data to the list (replace with addTrail when ready)
-        addTrail(new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, "Upper Mule Deer Trail to Windy Saddle Overpass with more useless text", 10.0, "Moderate", 2000, 6, 3, 1));
+//        addTrail(new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, "Upper Mule Deer Trail to Windy Saddle Overpass with more useless text", 10.0, "Moderate", 2000, 6, 3, 1));
 
         return view;
     }

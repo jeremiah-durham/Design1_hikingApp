@@ -1,5 +1,6 @@
 package com.design.hikingapp;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,12 @@ public class SavedTrailAdapter extends RecyclerView.Adapter<SavedTrailAdapter.Tr
 
         // Set the trail name, details, and image to the corresponding views in the holder
         holder.trailName.setText(trail.getName());
-        holder.trailImage.setImageResource(trail.getImageResource());
+        Bitmap bmp = null;
+        if((bmp = trail.getImgBmp()) == null) {
+            holder.trailImage.setImageResource(trail.getImageResource());
+        } else {
+            holder.trailImage.setImageBitmap(bmp);
+        }
 
         // Add click listener to the item view to pass data to the new page (Fragment or Activity)
         holder.itemView.setOnClickListener(v -> {

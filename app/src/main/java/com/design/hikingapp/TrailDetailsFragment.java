@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.design.hikingapp.trail.Trail;
+import com.design.hikingapp.trail.TrailRepository;
 import com.design.hikingapp.user.UserRepository;
 import com.design.hikingapp.util.RepositoryCallback;
 import com.design.hikingapp.util.Result;
@@ -90,10 +91,18 @@ public class TrailDetailsFragment extends Fragment {
             }
         });
 
+        if(TrailRepository.getInstance().isTrailDownloaded(this.trail.getId())) {
+            downloadButtonState = true;
+            downloadButton.setEnabled(false);
+            downloadButton.setImageResource(R.drawable.download_button_clicked);
+        }
+
         downloadButton.setOnClickListener(v -> {
             if (downloadButtonState == false) {
                 downloadButtonState = true;
                 downloadButton.setImageResource(R.drawable.download_button_clicked);
+
+                TrailRepository.getInstance().downloadTrail(this.trail);
             }
         });
 

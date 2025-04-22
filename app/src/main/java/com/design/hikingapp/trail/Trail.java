@@ -26,6 +26,7 @@ public class Trail implements FileStorable {
     private double lat = 39.75081252642373;
     private double lon = -105.22232351583222;
 
+    public Trail() {};
     public Trail(int imageResource, int mapResource, String name, double distance, String difficulty, int elevation, int timeHrs, int timeMins, int id) {
         this.imageResource = imageResource;
         this.mapResource = mapResource;
@@ -98,8 +99,13 @@ public class Trail implements FileStorable {
                 this.imgBmp = BitmapFactory.decodeStream(is);
             }
             this.name = is.readUTF();
-
-
+            this.lat = is.readDouble();
+            this.lon = is.readDouble();
+            this.distance = is.readDouble();
+            this.elevation = is.readInt();
+            this.timeHrs = is.readInt();
+            this.timeMins = is.readInt();
+            this.difficulty = is.readUTF();
 
         } catch (Exception e) {
             throw new IOException(e);
@@ -108,6 +114,7 @@ public class Trail implements FileStorable {
                 is.close();
         }
     }
+
     @Override
     public void saveToFile(File trailDirectory) throws IOException, SecurityException {
         if(!trailDirectory.isDirectory()) {
@@ -130,6 +137,13 @@ public class Trail implements FileStorable {
                 this.imgBmp.compress(Bitmap.CompressFormat.PNG, 0, out);
             }
             out.writeUTF(this.name);
+            out.writeDouble(this.lat);
+            out.writeDouble(this.lon);
+            out.writeDouble(this.distance);
+            out.writeInt(this.elevation);
+            out.writeInt(this.timeHrs);
+            out.writeInt(this.timeMins);
+            out.writeUTF(this.difficulty);
 
         } catch (Exception e) {
             throw new IOException(e);
