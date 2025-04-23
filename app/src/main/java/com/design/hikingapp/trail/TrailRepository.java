@@ -77,8 +77,8 @@ public class TrailRepository {
                 // assuming the trail loaded properly, add it to the list of loaded trails
                 loadedTrails.add(t);
             } catch (Exception e) {
-                // if an exception occured, simply dont try to load the file
-                Log.e("Trail Repository", "Error occured loading trail", e);
+                // if an exception occurred, simply don't try to load the file
+                Log.e("Trail Repository", "Error occurred loading trail", e);
             }
         });
     }
