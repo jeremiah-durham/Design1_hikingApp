@@ -1,5 +1,7 @@
 package com.design.hikingapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class WeatherData {
     }
 
     public void addTemperature(int temperature, String condition, String time) {
+        Log.d("WEATHER ADAPTER", "Temp: " + temperature + " Condition: " + condition + " Time: " + time);
         int imageResource = R.drawable.sunny_icon;
         switch (condition) {
             case "Sunny":
@@ -41,7 +44,7 @@ public class WeatherData {
         String ftime = time.split("T")[1].split(":")[0];
         int integerTime = Integer.parseInt(ftime);
 
-        if ((integerTime < 7 || integerTime > 19) && condition.equals("Sunny")) {
+        if ((integerTime < 7 || integerTime > 19) && (condition.equals("Sunny") || condition.equals("Unknown"))) {
             imageResource = R.drawable.night_icon;
         }
 

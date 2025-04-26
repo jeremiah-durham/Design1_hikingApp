@@ -1,6 +1,7 @@
 package com.design.hikingapp.weather;
 import com.design.hikingapp.WeatherData;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,13 +24,14 @@ public class WeatherDataParser {
             int[] windDirections = parseIntArray(extractArray(jsonString, "wind_direction_10m"));
 
             // Add current weather (first entry)
+            int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             if (times.length > 0 && temps.length > 0 && feelsLike.length > 0 && weatherCodes.length > 0) {
                 weatherData.addCurrentWeather(
-                        (int)(temps[0]),
-                        (int)(feelsLike[0]),
-                        getWeatherCondition(weatherCodes[0]),
-                        (int)snowDepths[0],
-                        times[0]
+                        (int)(temps[currentHour]),
+                        (int)(feelsLike[currentHour]),
+                        getWeatherCondition(weatherCodes[currentHour]),
+                        (int)snowDepths[currentHour],
+                        times[currentHour]
                 );
             }
 
@@ -103,7 +105,7 @@ public class WeatherDataParser {
             case 0: return "Sunny";
             case 1: return "Sunny";
             case 2: return "Cloudy";
-            case 3: return "Cloudy";
+            case 3: case 45: return "Cloudy";
             case 51: case 53: case 55: return "Rainy";
             case 61: case 63: case 65: return "Rainy";
             case 71: case 73: case 75: return "Snowy";
