@@ -32,6 +32,7 @@ services:
       context: backend
       target: builder
     restart: always
+    env_file: ./mail.env
     secrets:
       - db-password
     ports:
