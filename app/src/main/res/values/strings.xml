@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hiking App</string>
+    <string name="app_name">HikeSafe</string>
     <string name="title_search">Search</string>
     <string name="title_saved">Saved</string>
     <string name="title_profile">Profile</string>
