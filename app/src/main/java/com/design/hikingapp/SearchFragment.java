@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -74,12 +75,24 @@ public class SearchFragment extends Fragment {
         trailAdapter = new TrailAdapter(trailList);
         BackendRepository repo = BackendRepository.getInstance();
         repo.fetchTrailList(null, (result) -> {
+            view.post(()->{clearTrails();});
             if(result instanceof Result.Success) {
                 Log.d("Search Frag", "Got success result");
-                if(((Result.Success<List<Trail>>) result).data != null)
-                    view.post(() -> {
-                        batchAddTrail(((Result.Success<List<Trail>>) result).data);
-                    });
+                if(((Result.Success<List<Trail>>) result).data != null) {
+                    List<Trail> trails = ((Result.Success<List<Trail>>) result).data;
+                    for (int i = 0; i < trails.size(); i++) {
+                        if(repo.fetchSemRequested())
+                            break;
+                        Trail trail = trails.get(i);
+                        Bitmap bmp = repo.loadTrailBmp(trail.getId());
+                        if(bmp != null)
+                            trail.setImgBmp(bmp);
+                        view.post(() -> {
+                            addTrail(trail);
+                            updateResultsCount();
+                        });
+                    }
+                }
             } else {
                 Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
             }
@@ -92,7 +105,6 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 //Close drawer
                 drawerLayout.closeDrawer(GravityCompat.START);
-                clearTrails();
                 int minLen = Math.round(lengthSlider.getValues().get(0));
                 int maxLen = Math.round(lengthSlider.getValues().get(1));
                 int minEle = Math.round(elevationSlider.getValues().get(0));
@@ -104,12 +116,24 @@ public class SearchFragment extends Fragment {
                         minLen, maxLen, easyCheckbox.isChecked(), moderateCheckbox.isChecked(), hardCheckbox.isChecked(), minEle, maxEle, minTime, maxTime);
 
                 repo.fetchTrailList(myList, (result) -> {
+                    view.post(()->{clearTrails();});
                     if(result instanceof Result.Success) {
                         Log.d("Search Frag", "Got success result");
-                        if(((Result.Success<List<Trail>>) result).data != null)
-                            view.post(() -> {
-                                batchAddTrail(((Result.Success<List<Trail>>) result).data);
-                            });
+                        if(((Result.Success<List<Trail>>) result).data != null) {
+                            List<Trail> trails = ((Result.Success<List<Trail>>) result).data;
+                            for (int i = 0; i < trails.size(); i++){
+                                if(repo.fetchSemRequested())
+                                    break;
+                                Trail trail = trails.get(i);
+                                Bitmap bmp = repo.loadTrailBmp(trail.getId());
+                                if(bmp != null)
+                                    trail.setImgBmp(bmp);
+                                view.post(() -> {
+                                    addTrail(trail);
+                                    updateResultsCount();
+                                });
+                            }
+                        }
                     } else {
                         Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
                     }
@@ -131,17 +155,28 @@ public class SearchFragment extends Fragment {
                     myList.setQuery(query);
 
                     repo.fetchTrailList(myList, (result) -> {
+                        view.post(() -> {clearTrails();});
                         if(result instanceof Result.Success) {
                             Log.d("Search Frag", "Got success result");
-                            if(((Result.Success<List<Trail>>) result).data != null)
-                                view.post(() -> {
-                                    batchAddTrail(((Result.Success<List<Trail>>) result).data);
-                                });
+                            if(((Result.Success<List<Trail>>) result).data != null) {
+                                List<Trail> trails = ((Result.Success<List<Trail>>) result).data;
+                                for (int i = 0; i < trails.size(); i++){
+                                    if(repo.fetchSemRequested())
+                                        break;
+                                    Trail trail = trails.get(i);
+                                    Bitmap bmp = repo.loadTrailBmp(trail.getId());
+                                    if(bmp != null)
+                                        trail.setImgBmp(bmp);
+                                    view.post(() -> {
+                                        addTrail(trail);
+                                        updateResultsCount();
+                                    });
+                                }
+                            }
                         } else {
                             Log.e("Search Frag", "Got error result", ((Result.Error<List<Trail>>) result).exception);
                         }
                     });
-                    clearTrails();
                     updateResultsCount();
                 }
             }

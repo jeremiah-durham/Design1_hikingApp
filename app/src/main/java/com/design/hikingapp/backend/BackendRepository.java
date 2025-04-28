@@ -26,6 +26,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Semaphore;
 
 public class BackendRepository {
     private static final String TAG = "BackendRepository";
@@ -41,6 +42,7 @@ public class BackendRepository {
     private static BackendRepository instance;
     private TrailResponseParser responseParser;
     private Executor executor;
+    private Semaphore fetchSem;
 
     public static void setIP(BackendIp bip) {
         HTTP_URL = "http://" + bip.getIp() + ":80";
@@ -72,6 +74,7 @@ public class BackendRepository {
         var inst = getInstance();
         inst.responseParser = responseParser;
         inst.executor = executor;
+        inst.fetchSem = new Semaphore(1);
     }
 
     private String generateTrailRequest(SearchAttributes filter) throws IOException {
@@ -197,7 +200,7 @@ public class BackendRepository {
             List<Trail> trailList = responseParser.parse(con.getInputStream());
 
             // tmp trail image population
-            trailList.forEach(trail -> {
+            /*trailList.forEach(trail -> {
                 Bitmap bmp = null;
                 try {
                     InputStream in = new URL(HTTP_URL + "/img/" + ((trail.getId()%12)+1) + ".png").openStream();
@@ -206,7 +209,7 @@ public class BackendRepository {
                     Log.e(TAG, "got error saving image", e);
                 }
                 trail.setImgBmp(bmp);
-            });
+            });*/
 
             return new Result.Success<List<Trail>>(trailList);
         } catch (Exception e) {
@@ -214,6 +217,21 @@ public class BackendRepository {
         }
     }
 
+    public Bitmap loadTrailBmp(int trailId) {
+        Bitmap bmp = null;
+        try {
+            InputStream in = new URL(HTTP_URL + "/img/" + ((trailId%12)+1) + ".png").openStream();
+            bmp = BitmapFactory.decodeStream(in);
+        } catch (Exception e) {
+            Log.e(TAG, "got error loading image", e);
+        }
+
+        return bmp;
+    }
+
+    public boolean fetchSemRequested() {
+        return fetchSem.getQueueLength() > 0;
+    }
     public void fetchTrailList(
             SearchAttributes filter,
             final RepositoryCallback<List<Trail>> callback
@@ -222,12 +240,18 @@ public class BackendRepository {
             @Override
             public void run() {
                 try {
+                    fetchSem.acquire();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
                     Result<List<Trail>> result = trailSynchronousFetch(filter);
                     callback.onComplete(result);
                 } catch (Exception e) {
                     Result<List<Trail>> errorResult = new Result.Error<>(e);
                     callback.onComplete(errorResult);
                 }
+                fetchSem.release();
             }
         });
     }

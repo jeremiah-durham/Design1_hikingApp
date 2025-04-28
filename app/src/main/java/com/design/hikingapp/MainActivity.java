@@ -48,9 +48,8 @@ public class MainActivity extends AppCompatActivity {
             BackendRepository.setIP(BackendIpRepository.getInstance().getBip());
         }
 
-
-        WeatherRepository.initRepo(new WeatherDataParser(), Executors.newSingleThreadScheduledExecutor());
-        BackendRepository.initRepo(new TrailResponseParser(), Executors.newSingleThreadScheduledExecutor());
+        WeatherRepository.initRepo(new WeatherDataParser(), executorService);
+        BackendRepository.initRepo(new TrailResponseParser(), executorService);
         UserRepository.initRepo(getFilesDir());
         TrailRepository.initRepo(getFilesDir());
 
