@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.design.hikingapp.backend.BackendRepository;
 import com.design.hikingapp.backend.TrailResponseParser;
+import com.design.hikingapp.backendip.BackendIpRepository;
 import com.design.hikingapp.trail.TrailRepository;
 import com.design.hikingapp.user.UserRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,15 +31,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WeatherRepository.initRepo(new WeatherDataParser(), Executors.newSingleThreadScheduledExecutor());
-        BackendRepository.initRepo(new TrailResponseParser(), Executors.newSingleThreadScheduledExecutor());
-        UserRepository.initRepo(getFilesDir());
-        TrailRepository.initRepo(getFilesDir());
+        BackendIpRepository.initRepo(getFilesDir());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         bottomNavigationView = binding.bottomNavView;
         bottomNavigationView.setVisibility(BottomNavigationView.GONE);
+
+
+        if(!BackendIpRepository.getInstance().loadIp()) {
+            // Loading the ip failed, so we clearly need to pull up the debug menu and get everything sorted
+            loadFragment(new DebugFragment());
+            bottomNavigationView.setVisibility(BottomNavigationView.GONE);
+            return;
+        } else {
+            BackendRepository.setIP(BackendIpRepository.getInstance().getBip());
+        }
+
+
+        WeatherRepository.initRepo(new WeatherDataParser(), Executors.newSingleThreadScheduledExecutor());
+        BackendRepository.initRepo(new TrailResponseParser(), Executors.newSingleThreadScheduledExecutor());
+        UserRepository.initRepo(getFilesDir());
+        TrailRepository.initRepo(getFilesDir());
 
         // try loading user profile
         if(!UserRepository.getInstance().loadUser()) {

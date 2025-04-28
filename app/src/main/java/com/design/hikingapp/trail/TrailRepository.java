@@ -54,7 +54,7 @@ public class TrailRepository {
         } else {
             // the directory exists, so lets make a list of existing files
             File[] flist = inst.trailsDir.listFiles((dir, name) -> {
-                return name.matches("^\\d\\.trl$");
+                return name.matches("^\\d+\\.trl$");
             });
             if(flist != null) {
                 inst.trailFiles.addAll(Arrays.asList(flist));

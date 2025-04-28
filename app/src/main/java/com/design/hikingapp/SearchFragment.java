@@ -1,5 +1,6 @@
 package com.design.hikingapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,6 +163,7 @@ public class SearchFragment extends Fragment {
 
         filtersButton.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
         });
 
         return view;

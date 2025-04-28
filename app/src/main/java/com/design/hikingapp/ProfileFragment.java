@@ -2,9 +2,12 @@ package com.design.hikingapp;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.design.hikingapp.user.User;
@@ -16,6 +19,8 @@ public class ProfileFragment extends Fragment {
     private TextView weightText;
     private TextView emergencyContactText;
 
+    private ImageButton editButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -26,10 +31,28 @@ public class ProfileFragment extends Fragment {
         heightText = view.findViewById(R.id.profileHeightText);
         weightText = view.findViewById(R.id.profileWeightText);
         emergencyContactText = view.findViewById(R.id.profileEmergencyText);
+        editButton = view.findViewById(R.id.editButton);
 
         User user = UserRepository.getInstance().getUser();
 
         setProfile(user.getName(), user.getHeight(), user.getWeight(), user.getEemail());
+
+        editButton.setOnClickListener(v -> {
+            DebugFragment debugFragment = new DebugFragment();
+            // Assuming you're in an Activity context, you can load the fragment:
+            FragmentActivity activity = (FragmentActivity) v.getContext();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                            R.anim.fragment_pop_in,  // Entering fragment animation
+                            R.anim.fragment_pop_out, // Exiting fragment animation
+                            R.anim.fragment_pop_in,  // Pop-back enter animation
+                            R.anim.fragment_pop_out  // Pop-back exit animation
+                    )
+                    .replace(R.id.fragment_container, debugFragment) // Replace with the container ID of your fragment
+                    .addToBackStack(null) // Add to the back stack to allow back navigation
+                    .commit();
+        });
 
         return view;
     }

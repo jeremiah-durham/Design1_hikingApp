@@ -8,6 +8,7 @@ import android.util.JsonWriter;
 import android.util.Log;
 
 import com.design.hikingapp.SearchAttributes;
+import com.design.hikingapp.backendip.BackendIp;
 import com.design.hikingapp.trail.Trail;
 import com.design.hikingapp.user.User;
 import com.design.hikingapp.util.RepositoryCallback;
@@ -31,7 +32,7 @@ public class BackendRepository {
 
     /* 10.0.2.2 is the loopback address to the host machine
      i.e. its the address of your computer */
-    private static final String HTTP_URL = "http://10.0.2.2:80";
+    private static String HTTP_URL = "http://10.0.2.2:80";
     private static final String TRAIL_QUERY_PATH = "json";
     private static final String USER_QUERY_PATH = "user";
     private static final String HIKE_ACTION_PATH = "hikes";
@@ -40,6 +41,10 @@ public class BackendRepository {
     private static BackendRepository instance;
     private TrailResponseParser responseParser;
     private Executor executor;
+
+    public static void setIP(BackendIp bip) {
+        HTTP_URL = "http://" + bip.getIp() + ":80";
+    }
 
     private BackendRepository() {}
 
