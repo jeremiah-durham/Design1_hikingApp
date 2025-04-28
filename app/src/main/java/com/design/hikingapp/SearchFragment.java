@@ -73,7 +73,7 @@ public class SearchFragment extends Fragment {
             if(result instanceof Result.Success) {
                 Log.d("Search Frag", "Got success result");
                 if(((Result.Success<List<Trail>>) result).data != null)
-                    getActivity().runOnUiThread(() -> {
+                    view.post(() -> {
                         batchAddTrail(((Result.Success<List<Trail>>) result).data);
                     });
             } else {
@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment {
                     if(result instanceof Result.Success) {
                         Log.d("Search Frag", "Got success result");
                         if(((Result.Success<List<Trail>>) result).data != null)
-                            getActivity().runOnUiThread(() -> {
+                            view.post(() -> {
                                 batchAddTrail(((Result.Success<List<Trail>>) result).data);
                             });
                     } else {
@@ -128,7 +128,7 @@ public class SearchFragment extends Fragment {
                         if(result instanceof Result.Success) {
                             Log.d("Search Frag", "Got success result");
                             if(((Result.Success<List<Trail>>) result).data != null)
-                                getActivity().runOnUiThread(() -> {
+                                view.post(() -> {
                                     batchAddTrail(((Result.Success<List<Trail>>) result).data);
                                 });
                         } else {
@@ -158,9 +158,6 @@ public class SearchFragment extends Fragment {
         // Set up the RecyclerView with the adapter and layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(trailAdapter);
-
-        // Add sample data to the list (replace with addTrail when ready)
-        addTrail(new Trail(R.drawable.sample_trail_image, R.drawable.map_bg, "Upper Mule Deer Trail to Windy Saddle Overpass with more useless text", 10.0, "Moderate", 2000, 6, 3, 1));
 
         filtersButton.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);

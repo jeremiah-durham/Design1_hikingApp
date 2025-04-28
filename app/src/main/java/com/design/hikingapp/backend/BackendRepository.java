@@ -34,6 +34,7 @@ public class BackendRepository {
     private static final String HTTP_URL = "http://10.0.2.2:80";
     private static final String TRAIL_QUERY_PATH = "json";
     private static final String USER_QUERY_PATH = "user";
+    private static final String HIKE_ACTION_PATH = "hikes";
     private static final int CONNECTION_TIMEOUT = 200;
 
     private static BackendRepository instance;
@@ -297,6 +298,98 @@ public class BackendRepository {
             public void run() {
                 try {
                     Result<String> result = createUserSynchronousPost(user);
+                    callback.onComplete(result);
+                } catch (Exception e) {
+                    Result<String> errorResult = new Result.Error<>(e);
+                    callback.onComplete(errorResult);
+                }
+            }
+        });
+    }
+
+    private String generateHikeActionRequest(User user, Trail trail, String action) throws IOException {
+        StringWriter strwtr = new StringWriter();
+        JsonWriter writer = new JsonWriter(strwtr);
+
+        writer.beginObject();
+        writer.name("user_uuid").value(user.getUUID());
+        writer.name("trail_id").value(trail.getId());
+        writer.name("action").value(action);
+        writer.endObject();
+        writer.close();
+
+        return strwtr.toString();
+    }
+    private Result<String> hikeSynchronousPost(User user, Trail trail, String action) {
+        URL url;
+        HttpURLConnection con = null;
+        try {
+            url = new URL(HTTP_URL + "/" + HIKE_ACTION_PATH);
+            con = (HttpURLConnection) url.openConnection();
+            con.setConnectTimeout(CONNECTION_TIMEOUT);
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.setRequestProperty("Content-Type", "application/json");
+            String requestString = generateHikeActionRequest(user, trail, action);
+            con.getOutputStream().write(requestString.getBytes(StandardCharsets.UTF_8));
+
+            int responseCode = con.getResponseCode();
+            if(responseCode != HttpURLConnection.HTTP_OK) {
+                return new Result.Error<>(new Exception("Backend Api returned response code: " + responseCode));
+            }
+
+            String estendtime = null;
+            String msg = null;
+            JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+            try {
+                reader.beginObject();
+                while(reader.hasNext()) {
+                    String name = reader.nextName();
+                    if (name.equals("esttime")) {
+                        estendtime = reader.nextString();
+                    } else if (name.equals("message")) {
+                        msg = reader.nextString();
+                    } else {
+                            reader.skipValue();
+                    }
+                }
+                reader.endObject();
+            } finally {
+                reader.close();
+            }
+
+            if (action.equals("START")) {
+                if (estendtime != null) {
+                    return new Result.Success<>(estendtime);
+                } else {
+                    return new Result.Error<>(new Exception("did not get estendtime... got msg: " + msg));
+                }
+            } else {
+                if (msg != null) {
+                    return new Result.Success<>(msg);
+                } else {
+                    return new Result.Error<>(new Exception("Got error result without message... action: " + action));
+                }
+            }
+
+        } catch (Exception e) {
+            return new Result.Error<>(e);
+        } finally {
+            if (con != null)
+                con.disconnect();
+        }
+    }
+    public void hikeRequest(
+            User user,
+            Trail trail,
+            String action,
+            final RepositoryCallback<String> callback
+    ) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Result<String> result = hikeSynchronousPost(user, trail, action);
                     callback.onComplete(result);
                 } catch (Exception e) {
                     Result<String> errorResult = new Result.Error<>(e);

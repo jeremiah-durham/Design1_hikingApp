@@ -1,0 +1,15 @@
+{
+    "user_uuid":"<-user uuid->",
+    "trail_id": 5,
+    "action":"START"
+},
+{
+    "user_uuid":"<-user uuid->",
+    "trail_id": 5,
+    "action":"EXTEND"
+},
+{
+    "user_uuid":"<-user uuid->",
+    "trail_id": 5,
+    "action":"STOP"
+},

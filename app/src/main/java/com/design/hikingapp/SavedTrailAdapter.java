@@ -1,6 +1,7 @@
 package com.design.hikingapp;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.design.hikingapp.trail.Trail;
+import com.design.hikingapp.weather.WeatherRepository;
 
 import java.util.List;
 
 public class SavedTrailAdapter extends RecyclerView.Adapter<SavedTrailAdapter.TrailViewHolder> {
 
     private List<Trail> trailList;
-    private boolean buttonState = false;
+//    private boolean buttonState = false;
 
     public SavedTrailAdapter(List<Trail> trailList) {
         this.trailList = trailList;
@@ -50,38 +53,37 @@ public class SavedTrailAdapter extends RecyclerView.Adapter<SavedTrailAdapter.Tr
             /**
              * Load in the saved fragment, idk how you want to do this
              */
-//            Bundle bundle = new Bundle();
-//            bundle.putString("trail_name", trail.getName());
-//            bundle.putString("trail_details", trailDetails);
-//            bundle.putInt("trail_image", trail.getImageResource());  // Pass image resource ID
-//
-//            // Open the TrailDetailFragment and pass the bundle with the data
-//            TrailDetailsFragment detailFragment = new TrailDetailsFragment(trail, WeatherRepository.getInstance());
-//
-//            // Assuming you're in an Activity context, you can load the fragment:
-//            FragmentActivity activity = (FragmentActivity) v.getContext();
-//            activity.getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .setCustomAnimations(
-//                            R.anim.fragment_pop_in,  // Entering fragment animation
-//                            R.anim.fragment_pop_out, // Exiting fragment animation
-//                            R.anim.fragment_pop_in,  // Pop-back enter animation
-//                            R.anim.fragment_pop_out  // Pop-back exit animation
-//                    )
-//                    .replace(R.id.fragment_container, detailFragment) // Replace with the container ID of your fragment
-//                    .addToBackStack(null) // Add to the back stack to allow back navigation
-//                    .commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("trail_name", trail.getName());
+            bundle.putInt("trail_image", trail.getImageResource());  // Pass image resource ID
+
+            // Open the TrailDetailFragment and pass the bundle with the data
+            SavedTrailDetailsFragment detailFragment = new SavedTrailDetailsFragment(trail, WeatherRepository.getInstance());
+
+            // Assuming you're in an Activity context, you can load the fragment:
+            FragmentActivity activity = (FragmentActivity) v.getContext();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                            R.anim.fragment_pop_in,  // Entering fragment animation
+                            R.anim.fragment_pop_out, // Exiting fragment animation
+                            R.anim.fragment_pop_in,  // Pop-back enter animation
+                            R.anim.fragment_pop_out  // Pop-back exit animation
+                    )
+                    .replace(R.id.fragment_container, detailFragment) // Replace with the container ID of your fragment
+                    .addToBackStack(null) // Add to the back stack to allow back navigation
+                    .commit();
         });
 
-        // Add click listener to the startButton to start a hike
-        holder.startButton.setOnClickListener(v -> {
-            if (buttonState == false) {
-                holder.startButton.setImageResource(R.drawable.stop_button);
-            } else {
-                holder.startButton.setImageResource(R.drawable.start_button);
-            }
-            buttonState = !buttonState;
-        });
+//        // Add click listener to the startButton to start a hike
+//        holder.startButton.setOnClickListener(v -> {
+//            if (buttonState == false) {
+//                holder.startButton.setImageResource(R.drawable.stop_button);
+//            } else {
+//                holder.startButton.setImageResource(R.drawable.start_button);
+//            }
+//            buttonState = !buttonState;
+//        });
     }
 
     @Override

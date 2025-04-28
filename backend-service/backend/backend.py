@@ -169,6 +169,62 @@ class DBManager:
             res = c[0]
         return res.hex()
 
+    def validate_user_and_hike(self, uuid: str, trail: int):
+        valid = []
+        # validate that user exists
+        self.cursor.execute(f"SELECT COUNT(uuid) FROM users WHERE uuid = 0x{uuid}")
+        res = ''
+        for c in self.cursor:
+            res = c[0]
+        if int(res) != 1:
+            valid.append(False)
+        else:
+            valid.append(True)
+        # validate that the trail exists
+        self.cursor.execute(f"SELECT COUNT(id) FROM trails WHERE id = {trail}")
+        for c in self.cursor:
+            res = c[0]
+        if int(res) != 1:
+            valid.append(False)
+        else:
+            valid.append(True)
+        return valid
+
+    def is_user_on_hike(self, uuid: str):
+        self.cursor.execute(f"SELECT trail_id FROM hike_log WHERE user = 0x{uuid} AND active = true")
+        res = ''
+        for c in self.cursor:
+            res = c[0]
+        if res == '':
+            return -1
+        else:
+            return int(res)
+
+    def start_user_hike(self, uuid: str, trail: int):
+        # get trail expected time
+        self.cursor.execute(f"SELECT @trailtm := est_time_min FROM trails WHERE id = {trail}")
+        res = []
+        for c in self.cursor:
+            res.append(c)
+        instr = "INSERT INTO hike_log(user, trail_id, active, start_time, expected_end_time) VALUES "
+        instr += f"( 0x{uuid}, {trail}, true, @sttm := NOW(), @estend := ADDTIME(@sttm, SEC_TO_TIME(@trailtm * 60)) )"
+        self.cursor.execute(instr)
+        self.connection.commit()
+        self.cursor.execute("SELECT @estend")
+        res = ''
+        for c in self.cursor:
+            res = c[0]
+        return res
+
+    def stop_user_hike(self, uuid: str, trail: int):
+        self.cursor.execute(f"UPDATE hike_log SET active = false, id = @stopid := id WHERE user = 0x{uuid} AND trail_id = {trail} AND active = true")
+        self.connection.commit()
+        self.cursor.execute("SELECT @stopid")
+        res = ''
+        for c in self.cursor:
+            res = c[0]
+        return res
+
     def query_columns(self):
         res = set()
         for t in ['trails', 'traits', 'parks']:
@@ -276,6 +332,56 @@ def create_user():
         uuid = conn.create_user(data)
         server.logger.debug(f"Created user with uuid {uuid}")
         return {'uuid': uuid}
+
+
+@server.post('/hikes')
+def handle_hike_req():
+    global conn
+    if not conn:
+        conn = DBManager(
+            database='project',
+            password_file='/run/secrets/db-password'
+        )
+    if not request.is_json:
+        return "<div> Please post a JSON request </div>"
+    else:
+        data = None
+        try:
+            data = request.get_json()
+        except Exception as e:
+            return json.jsonify({"message": "got bad data", "error": str(e)})
+        if set(data.keys()) != {"user_uuid", "trail_id", "action"}:
+            missing_keys = {"user_uuid", "trail_id", "action"} - set(data.keys())
+            extra_keys = set(data.keys()) - {"user_uuid", "trail_id", "action"}
+            return json.jsonify({"message": "fields are invalid: " + (f"extra keys: {extra_keys}  " if len(extra_keys) > 0 else "") + (f"missing keys: {missing_keys}" if len(missing_keys) > 0 else "")})
+        if data['action'] not in ['START', 'STOP', 'EXTEND']:
+            return json.jsonify({"message": f"invalid action: {data['action']}"})
+        # the data seems to be valid, so start doing the db side of things
+
+        # check if the uuid is valid
+        valid = conn.validate_user_and_hike(data['user_uuid'], data['trail_id'])
+        if False in valid:
+            return json.jsonify({"message": "got invalid uuid or trail", "uuid":valid[0], "trail":valid[1]})
+        # everything seems valid, so now check if the user is already on a hike
+        user_hiking = conn.is_user_on_hike(data['user_uuid'])
+        # notify the client if the trail they say they're hiking does not match up with us
+        if user_hiking != -1 and user_hiking != data['trail_id']:
+            return json.jsonify({"message": "trail_id does not match current trial", "trail_id": user_hiking})
+        if data['action'] in ["STOP", "EXTEND"]:
+            if user_hiking == -1:
+                return json.jsonify({"message": "not hiking"})
+            elif data['action'] == "STOP":
+                v = conn.stop_user_hike(data['user_uuid'], data['trail_id'])
+                return json.jsonify({"message": "stopped hike", "data":v})
+            elif data['action'] == "EXTEND":
+                pass
+        elif data['action'] == "START":
+            if user_hiking != -1:
+                return json.jsonify({"message": "user already hiking", "trail_id": user_hiking})
+            else:
+                # create user hike entry
+                stoptime = conn.start_user_hike(data['user_uuid'], data['trail_id'])
+                return json.jsonify({"message": "started hike", "esttime": stoptime})
 
 
 def my_job():

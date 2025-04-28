@@ -60,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.search) {
                 selectedFragment = new SearchFragment();
             } else if (item.getItemId() == R.id.saved) {
-                selectedFragment = new SavedFragment();
+                if(TrailRepository.getInstance().isTrailActive()) {
+                    selectedFragment = new SavedTrailDetailsFragment(TrailRepository.getInstance().getActiveTrail(), WeatherRepository.getInstance());
+                } else {
+                    selectedFragment = new SavedFragment();
+                }
             } else if (item.getItemId() == R.id.profile) {
                 selectedFragment = new ProfileFragment();
             }
