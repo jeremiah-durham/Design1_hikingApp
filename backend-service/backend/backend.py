@@ -530,7 +530,7 @@ def send_eemail(pastSafe: list, userDetails: list, trailDetails: list):
         msg['From'] = fromaddr
         msg['To'] = userEmail
         msg['Subject'] = "HikeSafe ALERT"
-        body = f"User {userName} was expected to finish their hike at {trailName} at {datetime.datetime.fromtimestamp(l['expected_end_time'])}UTC but has not yet stopped thier hike."
+        body = f"User {userName} was expected to finish their hike at {trailName} at {datetime.datetime.fromtimestamp(l['expected_end_time'])}UTC but has not yet stopped their hike."
         body += f"\nIf possible please check in with {userName} or reach out to local rangers to ensure their safety."
         msg.attach(MIMEText(body, 'plain'))
 
