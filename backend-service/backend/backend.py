@@ -1,13 +1,19 @@
 import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import decimal
 from flask import Flask, request, json
 import mysql.connector
 from abc import ABC, abstractmethod
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
+import requests
+import datetime
 
 QUERY_TAGS = {'fields', 'filters', 'count'}
 
+EMG_DELAY = [1, 3]
 
 class QueryFactory:
     def __init__(self):
@@ -163,7 +169,7 @@ class DBManager:
         res = []
         for c in self.cursor:
             res.append(c)
-        return json.jsonify(list(map(lambda x: {k: v for (k, v) in zip(cols, x)}, res)))
+        return list(map(lambda x: {k: v for (k, v) in zip(cols, x)}, res))
 
     def create_user(self, user: dict):
         insertstr = 'INSERT INTO users(uuid, name, eemail, weight, height) VALUES ('
@@ -234,6 +240,24 @@ class DBManager:
         for c in self.cursor:
             res = c[0]
         return res
+
+    def get_unsafe_hikes(self):
+        self.cursor.execute("SELECT id,user,trail_id,expected_end_time,email_record FROM hike_log WHERE NOW() >= expected_end_time AND active = true")
+        res = []
+        for c in self.cursor:
+            a = [x for x in c]
+            a[1] = a[1].hex()
+            for i in range(len(a)):
+                if type(a[i]) is datetime.datetime:
+                    a[i] = a[i].timestamp()
+            res.append(tuple(a))
+        return res
+
+    def update_email_records(self, ids: list):
+        instr = "UPDATE hike_log SET email_record = email_record+1 WHERE "
+        instr += " OR ".join([f"id = {x}" for x in ids])
+        self.cursor.execute(instr)
+        self.connection.commit()
 
     def query_columns(self):
         res = set()
@@ -314,7 +338,7 @@ def json_test():
             fac.withCount(data['count'])
 
         query = fac.build()
-        out = conn.custom_query(query, data['fields'])
+        out = json.jsonify(conn.custom_query(query, data['fields']))
 
         return out
 
@@ -393,16 +417,184 @@ def handle_hike_req():
                 stoptime = conn.start_user_hike(data['user_uuid'], data['trail_id'])
                 return json.jsonify({"message": "started hike", "esttime": stoptime})
 
+@server.route("/watch")
+def watcher():
+    global conn
+    if not conn:
+        conn = DBManager(
+            database='project',
+            password_file='/run/secrets/db-password'
+        )
+    # res = conn.get_unsafe_hikes()
+    res = conn.custom_query("SELECT id,user,trail_id,expected_end_time,email_record FROM hike_log WHERE NOW() >= expected_end_time AND active = true", ["id","user","trail_id","expected_end_time","email_record"])
+    for i in range(len(res)):
+        res[i]['user'] = res[i]['user'].hex()
+        res[i]['expected_end_time'] = res[i]['expected_end_time'].timestamp()
+    return json.jsonify(res)
+
+@server.post("/user_info")
+def getUserInfo():
+    global conn
+    if not conn:
+        conn = DBManager(
+            database='project',
+            password_file='/run/secrets/db-password'
+        )
+    if not request.is_json:
+        return "<div> Please post a JSON request </div>"
+    data = None
+    try:
+        data = request.get_json()
+    except Exception as e:
+        return json.jsonify({"message": "got bad data", "error": str(e)})
+    s = "SELECT uuid,name,eemail FROM users WHERE "
+    s += " OR ".join(list(map(lambda x: f'uuid = 0x{x}', data)))
+    res = conn.custom_query(s, ["uuid", "name", "eemail"])
+    for i in range(len(res)):
+        res[i]['uuid'] = res[i]['uuid'].hex()
+    return json.jsonify(res)
+
+@server.route("/mail_test")
+def send_mail():
+    return
+    fromaddr = os.getenv("MAIL_USER")
+    toaddr = ""
+    msg = MIMEMultipart()
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = "Test Email"
+    body = "test body text"
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    s = smtplib.SMTP(os.getenv("MAIL_SERVER"), 587)
+    s.starttls()
+    ret = s.login(fromaddr, os.getenv("MAIL_PASSWORD"))
+    server.logger.debug(f"login got : {ret}")
+    text = msg.as_string()
+    ret = s.sendmail(fromaddr, toaddr, text)
+    server.logger.debug(f"send got : {ret}")
+    s.quit()
+    return "<div> Set mail...? </div>"
+
+@server.post("/trail_details")
+def get_trail_details():
+    global conn
+    if not conn:
+        conn = DBManager(
+            database='project',
+            password_file='/run/secrets/db-password'
+        )
+    if not request.is_json:
+        return "<div> Please post a JSON request </div>"
+    data = None
+    try:
+        data = request.get_json()
+    except Exception as e:
+        return json.jsonify({"message": "got bad data", "error": str(e)})
+    s = "SELECT id,trail_name FROM trails WHERE "
+    s += " OR ".join([f"id = {id}" for id in data])
+    res = conn.custom_query(s, ["id", "trail_name"])
+    return json.jsonify(res)
+
+@server.post("/update_record")
+def update_email_record():
+    global conn
+    if not conn:
+        conn = DBManager(
+            database='project',
+            password_file='/run/secrets/db-password'
+        )
+    if not request.is_json:
+        return "<div> Please post a JSON request </div>"
+    data = None
+    try:
+        data = request.get_json()
+    except Exception as e:
+        return json.jsonify({"message": "got bad data", "error": str(e)})
+
+    conn.update_email_records(data)
+    return {}
+
+
+def send_eemail(pastSafe: list, userDetails: list, trailDetails: list):
+    fromaddr = os.getenv("MAIL_USER")
+    for l in pastSafe:
+        user = list(filter(lambda x: x['uuid'] == l['user'], userDetails))[0]
+        userName = user['name']
+        userEmail = user['eemail']
+        trail = list(filter(lambda x: x['id'] == l['trail_id'], trailDetails))[0]
+        trailName = trail['trail_name']
+
+        msg = MIMEMultipart()
+        msg['From'] = fromaddr
+        msg['To'] = userEmail
+        msg['Subject'] = "HikeSafe ALERT"
+        body = f"User {userName} was expected to finish their hike at {trailName} at {datetime.datetime.fromtimestamp(l['expected_end_time'])}UTC but has not yet stopped thier hike."
+        body += f"\nIf possible please check in with {userName} or reach out to local rangers to ensure their safety."
+        msg.attach(MIMEText(body, 'plain'))
+
+        s = smtplib.SMTP(os.getenv("MAIL_SERVER", 587))
+        s.starttls()
+        ret = s.login(fromaddr, os.getenv("MAIL_PASSWORD"))
+        server.logger.debug(f"login got : {ret}")
+        text = msg.as_string()
+        ret = s.sendmail(fromaddr, userEmail, text)
+        server.logger.debug(f"send got : {ret}")
+        s.quit()
+
 
 def my_job():
     if os.environ.get('WERKZEUG_RUN_MAIN'):
         return
-    server.logger.warn("Task ran...")
-    server.logger.warn(os.environ.get('WERKZEUG_RUN_MAIN'))
-    # server.logger.debug(str(dir(server)))
+    # Get a list of the rows from hike_log that have users who have been active longer than deemed safe
+    server.logger.warn("Ran job")
+    r = requests.get("http://localhost:8000/watch")
+    if r.status_code != 200:
+        server.logger.warn("bad status code")
+        return
+    server.logger.warn(f"Got: {r.json()}")
+    watchList = r.json()
+    # only do something if there is something to do...
+    if len(watchList) == 0:
+        return
+
+    # figure out if any of the times are over the safe time
+    pastSafe = list(filter(lambda x: (datetime.datetime.now().timestamp() - x['expected_end_time']) // 60 >= EMG_DELAY[0] and x['email_record'] < 1, watchList))
+    server.logger.warn(f"past safe: {pastSafe}")
+    if len(pastSafe) == 0:
+        return
+    uuids = list(set(map(lambda x: x['user'], pastSafe)))
+    r = requests.post("http://localhost:8000/user_info", json=uuids)
+    if r.status_code != 200:
+        server.logger.warn("bad status code")
+        return
+    userDetails = r.json()
+    server.logger.debug(f"Got: {userDetails}")
+
+    # get trail info
+    trails = list(set(map(lambda x: x['trail_id'], pastSafe)))
+    r = requests.post("http://localhost:8000/trail_details", json=trails)
+    if r.status_code != 200:
+        server.logger.warn("bad status code")
+        return
+    trailDetails = r.json()
+    server.logger.debug(f"Got: {trailDetails}")
+
+    # send emails
+    send_eemail(pastSafe, userDetails, trailDetails)
+
+    # update email records
+    logs = list(set(map(lambda x: x['id'], pastSafe)))
+    r = requests.post("http://localhost:8000/update_record", json=logs)
+    if r.status_code != 200:
+        server.logger.warn("bad status code")
+        return
 
 
-scheduler.add_job(func=my_job, id="test", trigger='interval', seconds=10)
+
+
+scheduler.add_job(func=my_job, id="test", trigger='interval', seconds=30)
 scheduler.start()
 
 if __name__ == '__main__':

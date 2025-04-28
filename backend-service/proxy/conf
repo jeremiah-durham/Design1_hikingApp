@@ -5,6 +5,9 @@ server {
 	proxy_pass http://backend:8000;
     }
 
+    location /watch {}
+    location /user_info {}
+
     location /img/ {
 	root /data;
     }
