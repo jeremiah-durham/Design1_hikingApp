@@ -200,10 +200,10 @@ public class BackendRepository {
             trailList.forEach(trail -> {
                 Bitmap bmp = null;
                 try {
-                    InputStream in = new URL(HTTP_URL + "/img/" + "placeholderTrail.png").openStream();
+                    InputStream in = new URL(HTTP_URL + "/img/" + ((trail.getId()%12)+1) + ".png").openStream();
                     bmp = BitmapFactory.decodeStream(in);
                 } catch (Exception e) {
-                    // bah
+                    Log.e(TAG, "got error saving image", e);
                 }
                 trail.setImgBmp(bmp);
             });
