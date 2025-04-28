@@ -149,6 +149,7 @@ public class SearchAttributes {
     public boolean getHard(){
         return Hard;
     }
+    public String getQuery() {return this.searchBar;}
 /*
     public void clearQuery(){
         this.searchBar = "";

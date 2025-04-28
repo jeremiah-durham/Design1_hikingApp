@@ -43,6 +43,8 @@ class QueryFactory:
                 filts.append(QFilterRange(key, self.filters[key]))
             elif key == 'traits':
                 filts.append(QFilterConjMany(self.filters[key]))
+            elif key == 'fulltext':
+                filts.append(QFilterFulltext(self.filters[key]))
             else:
                 raise Exception('Invalid filter key: ' + key)
         sqlfilter = "WHERE\n"
@@ -68,6 +70,14 @@ class QFilterGeneric(ABC):
     def __str__(self):
         # this should return the sql selection string for this class
         pass
+
+
+class QFilterFulltext(QFilterGeneric):
+    def __init__(self, fulltext):
+        self.fulltext = fulltext
+
+    def __str__(self):
+        return f'(MATCH(trail_name) AGAINST("{self.fulltext}*" IN BOOLEAN MODE))'
 
 
 class QFilterDisj(QFilterGeneric):

@@ -17,7 +17,8 @@ CREATE TABLE trails (
     lat DEC(10,5),
     lon DEC(10,5),
 
-    FOREIGN KEY (park_id) REFERENCES parks(id)
+    FOREIGN KEY (park_id) REFERENCES parks(id),
+    FULLTEXT KEY (trail_name)
 );
 
 CREATE TABLE traits (

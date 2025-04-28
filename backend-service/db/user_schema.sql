@@ -20,6 +20,7 @@ CREATE TABLE hike_log (
     active BOOL NOT NULL DEFAULT FALSE,
     start_time DATETIME DEFAULT NULL,
     expected_end_time DATETIME DEFAULT NULL,
+    email_record INT DEFAULT 0,
 
     FOREIGN KEY (user) REFERENCES users(uuid),
     FOREIGN KEY (trail_id) REFERENCES trails(id)

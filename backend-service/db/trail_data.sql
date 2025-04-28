@@ -57,7 +57,8 @@ VALUES
 	(3, "Golden Gate Canyon Full Pull Trail", 27.7, 5810, "hard", 842.0, 39.83562,-105.42969),
 	(3, "Visitor Center Nature Trail", 0.8, 111, "easy", 20.0, 39.83155,-105.41021),
 	(3, "Mountain Lion, Windy Peak, and Burro Loop", 6.5, 1706, "moderate", 219.0, null,null),
-	(3, "Kriley Pond", 0.7, 78, "easy", 17.0, 39.83552,-105.42981);
+	(3, "Kriley Pond", 0.7, 78, "easy", 17.0, 39.83552,-105.42981),
+	(1, "Test Trail", 0.5, 30, "easy", 1.0, null,null);
 INSERT INTO traits (trail_id, hiking, biking, mountain_views, river, forest, hist_sites, lake)
 VALUES
 	(1, true, true, true, false, true, true, false),
@@ -110,4 +111,5 @@ VALUES
 	(48, true, true, true, false, true, true, false),
 	(49, true, true, true, false, true, false, false),
 	(50, true, false, true, false, true, false, true),
-	(51, true, false, true, false, false, false, true);
+	(51, true, false, true, false, false, false, true),
+	(52, true, true, true, true, true, true, true);

@@ -24,6 +24,7 @@
             android:drawablePadding="10dp"
             android:fontFamily="@font/lato_regular"
             android:hint="Search..."
+            android:imeOptions="actionSearch"
             android:inputType="text"
             android:paddingStart="15dp"
             android:textColor="@color/textSecondary"

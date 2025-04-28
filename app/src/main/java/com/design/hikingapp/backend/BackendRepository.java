@@ -95,6 +95,9 @@ public class BackendRepository {
             writer.beginObject();
             // create filter fields here
             // BEGIN FILTER FIELDS
+            if(!filter.getQuery().isEmpty()) {
+                writer.name("fulltext").value(filter.getQuery());
+            }
             if(filter.getMaxEle() != 2500 || filter.getMinEle() != 0){
                 writer.name("elevation_delta");
                 writer.beginObject();
